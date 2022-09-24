@@ -37,7 +37,12 @@ const onDragOver = (event: DragEvent) => {
   console.log("drag");
 };
 
-function FlowCanvas({ setSelectedID }) {
+type FlowCanvasProps = {
+  setSelectedID: Function;
+  clearCanvas: Function;
+};
+
+function FlowCanvas({ setSelectedID, clearCanvas }: FlowCanvasProps) {
   const [selected, setSelected] = useState("");
 
   const [reactFlowInstance, setReactFlowInstance] =

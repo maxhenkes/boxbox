@@ -1,4 +1,5 @@
 import { Button, ButtonGroup } from "@chakra-ui/react";
+import { MouseEventHandler } from "react";
 import {
   AiOutlineForm,
   AiOutlineCloudUpload,
@@ -6,7 +7,11 @@ import {
   AiOutlineClear,
 } from "react-icons/ai";
 
-function TopToolbar(): JSX.Element {
+type TopToolbarProps = {
+  clearCanvas: MouseEventHandler;
+};
+
+function TopToolbar({ clearCanvas }: TopToolbarProps): JSX.Element {
   return (
     <ButtonGroup variant="outline" spacing="3">
       <div draggable onDragStart={(event) => {}}>
@@ -15,8 +20,12 @@ function TopToolbar(): JSX.Element {
         </Button>
       </div>
       <Button leftIcon={<AiOutlineCloudUpload />}>Load</Button>
-      <Button leftIcon={<AiOutlineCloudDownload />}>Export</Button>
-      <Button leftIcon={<AiOutlineClear />} colorScheme="red">
+      <Button leftIcon={<AiOutlineCloudDownload />}>Save</Button>
+      <Button
+        leftIcon={<AiOutlineClear />}
+        colorScheme="red"
+        onClick={clearCanvas}
+      >
         Clear
       </Button>
     </ButtonGroup>

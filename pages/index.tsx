@@ -19,7 +19,7 @@ const Home: NextPage = () => {
           mb={6}
           type="password"
         ></Input>
-        <Button onClick={() => Router.push("MainView")} colorScheme="teal">
+        <Button onClick={() => Router.push("App")} colorScheme="teal">
           Log in
         </Button>
       </Flex>
