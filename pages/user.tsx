@@ -9,10 +9,31 @@ import {
   HStack,
   Avatar,
   Button,
+  useToast,
 } from "@chakra-ui/react";
+import Router from "next/router";
 import NavBar from "../components/nav/NavBar";
 
 const User = () => {
+  const toast = useToast();
+
+  const onSave = async () => {
+    await fetch("/api/user/update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ test: "t" }),
+    });
+  };
+
+  const onSuccessSaved = () => {
+    toast({
+      title: "Settings saved",
+      description: "All user settings have been saved.",
+      status: "success",
+      isClosable: true,
+    });
+  };
+
   return (
     <div>
       <NavBar />
@@ -30,7 +51,9 @@ const User = () => {
                 <Textarea></Textarea>
               </Box>
               <Box pt={3}>
-                <Button variant="outline">Save changes</Button>
+                <Button variant="outline" onClick={onSave}>
+                  Save changes
+                </Button>
               </Box>
             </VStack>
             <Avatar size="2xl" name="test"></Avatar>
