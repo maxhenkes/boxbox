@@ -1,5 +1,6 @@
 import { MouseEventHandler, useState } from "react";
 import { VscChromeClose, VscMenu } from "react-icons/vsc";
+import NextLink from "next/link";
 import {
   Box,
   Link,
@@ -44,11 +45,13 @@ const MenuToggle = ({ toggle, isOpen }: MenuToggleProps) => {
 
 const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
   return (
-    <Link href={to}>
-      <Text display="block" {...rest}>
-        {children}
-      </Text>
-    </Link>
+    <NextLink href={to} passHref>
+      <Link>
+        <Flex display="block" {...rest}>
+          {children}
+        </Flex>
+      </Link>
+    </NextLink>
   );
 };
 
@@ -65,7 +68,7 @@ const MenuLinks = ({ isOpen }) => {
         direction={["column", "row", "row", "row"]}
         pt={[4, 4, 0, 0]}
       >
-        <MenuItem to="/canvas">Canvas</MenuItem>
+        <MenuItem to="/App">Canvas</MenuItem>
         <MenuItem to="/diagrams">My Diagrams</MenuItem>
         <MenuItem to="/user" isLast>
           <Tooltip label="test">

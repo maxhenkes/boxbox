@@ -1,3 +1,4 @@
+import { Button } from "@chakra-ui/react";
 import { useState, useCallback } from "react";
 import ReactFlow, {
   addEdge,
@@ -11,6 +12,8 @@ import ReactFlow, {
   Connection,
   ReactFlowInstance,
   Background,
+  MiniMap,
+  ConnectionLineType,
 } from "react-flow-renderer";
 
 const initialNodes: Node[] = [
@@ -61,7 +64,7 @@ function FlowCanvas({ setSelectedID, clearCanvas }: FlowCanvasProps) {
       });
       const newNode: Node = {
         id: `test${getId()}`,
-        type: "input",
+        type: "default",
         position,
         data: { label: `test` },
       };
@@ -101,11 +104,20 @@ function FlowCanvas({ setSelectedID, clearCanvas }: FlowCanvasProps) {
   );
   const onConnect = useCallback(
     (connection: Connection) => {
-      console.log("connect");
       setEdges((eds) => addEdge(connection, eds));
     },
     [setEdges],
   );
+
+  const clear = () => {
+    console.log("clear");
+    setNodes([]);
+    setEdges([]);
+  };
+
+  const defaultEdge = {
+    type: "step",
+  };
 
   return (
     <ReactFlow
@@ -117,12 +129,20 @@ function FlowCanvas({ setSelectedID, clearCanvas }: FlowCanvasProps) {
       onConnect={onConnect}
       onInit={onInit}
       onDrop={onDrop}
+      defaultEdgeOptions={defaultEdge}
       snapToGrid={true}
       fitView
       fitViewOptions={fitViewOptions}
+      connectionLineType={ConnectionLineType.Step}
       onDragOver={onDragOver}
     >
       <Background variant="dots" size={0.5} color="#81818a" />
+
+      <div>
+        <button className="btn1" onClick={clear}>
+          clear
+        </button>
+      </div>
     </ReactFlow>
   );
 }
