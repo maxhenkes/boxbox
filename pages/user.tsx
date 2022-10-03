@@ -11,8 +11,25 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
-import Router from "next/router";
+import { GetServerSideProps } from "next";
 import NavBar from "../components/nav/NavBar";
+import prisma from "../lib/prisma";
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const post = await prisma.user.findUnique({
+    where: {
+      id: String(params?.id),
+    },
+    include: {
+      author: {
+        select: { name: true, email: true },
+      },
+    },
+  });
+  return {
+    props: post,
+  };
+};
 
 const User = () => {
   const toast = useToast();
