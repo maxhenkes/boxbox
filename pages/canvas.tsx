@@ -7,6 +7,7 @@ import DetailView, {
   type DetailViewProps,
 } from "../components/DetailView";
 import { VStack, Flex, Box } from "@chakra-ui/react";
+import { ReactFlowProvider } from "reactflow";
 
 const MainView: NextPage = () => {
   const initialDetail: TextType = { id: "test", label: "Node none" };
@@ -32,10 +33,14 @@ const MainView: NextPage = () => {
       <TopToolbar clearCanvas={onClearCanvas} />
       <Flex minWidth="100vw" minHeight="100vh" direction="row" gap={0}>
         <Box bg="gray.600" w="77vw">
-          <FlowCanvas setSelectedID={setSelected} />
+          <ReactFlowProvider>
+            <FlowCanvas setSelectedID={setSelected} />
+          </ReactFlowProvider>
         </Box>
         <Box bg="gray.700" minWidth="23vw">
-          <DetailView fields={details} />
+          <Box margin={5}>
+            <DetailView fields={details} />
+          </Box>
         </Box>
       </Flex>
     </VStack>
