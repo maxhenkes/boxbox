@@ -73,7 +73,7 @@ export default function DetailView({ fields }: DetailViewProps) {
           <FormLabel>VM Name</FormLabel>
           <Input type="text" value={input} onChange={handleInputChange} />
           {!isError ? (
-            <FormHelperText>Enter the VM's name.</FormHelperText>
+            <FormHelperText>Enter the VM&aposs name.</FormHelperText>
           ) : (
             <FormErrorMessage>Name is required.</FormErrorMessage>
           )}
