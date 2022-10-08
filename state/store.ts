@@ -11,17 +11,23 @@ import {
   OnConnect,
   applyNodeChanges,
   applyEdgeChanges,
-  OnSelectionChangeFunc,
-  useOnSelectionChange,
 } from "reactflow";
+
+type nodeSelection = {
+  hasSelection: boolean;
+  node: Node;
+};
 
 type RFState = {
   nodes: Node[];
   edges: Edge[];
+  selected: nodeSelection;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
   add: Function;
+  clearNodes: Function;
+  onSelectionChange: Function;
 };
 
 const initialNodes: Node[] = [
@@ -37,6 +43,17 @@ const initialEdges: Edge[] = [
 const useStore = create<RFState>((set, get) => ({
   nodes: initialNodes,
   edges: initialEdges,
+  clearNodes: () => {
+    set({
+      nodes: [],
+    });
+  },
+  selected: { hasSelection: false, node: undefined },
+  onSelectionChange: (changes: nodeSelection) => {
+    set({
+      selected: changes,
+    });
+  },
   onNodesChange: (changes: NodeChange[]) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),

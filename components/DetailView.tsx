@@ -17,6 +17,7 @@ import {
   HStack,
   Text,
 } from "@chakra-ui/react";
+import Overview from "./Overview";
 
 type CheckType = {
   id: string;
@@ -54,12 +55,9 @@ export default function DetailView({ fields }: DetailViewProps) {
   if (fields[0].label === "Node none") {
     return (
       <div>
-        <Heading>Current Selected</Heading>
+        <Heading>Overview</Heading>
         <Divider mb={4} />
-        <VStack>
-          <Text>{fields[0].label}</Text>
-          <Text>Placeholder for Overview</Text>
-        </VStack>
+        <Overview></Overview>
       </div>
     );
   }

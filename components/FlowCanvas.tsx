@@ -1,14 +1,6 @@
 import { useState, useCallback } from "react";
 import ReactFlow, {
-  addEdge,
   FitViewOptions,
-  applyNodeChanges,
-  applyEdgeChanges,
-  Node,
-  Edge,
-  NodeChange,
-  EdgeChange,
-  Connection,
   ReactFlowInstance,
   Background,
   ConnectionLineType,
@@ -38,10 +30,15 @@ type FlowCanvasProps = {
   clearCanvas: Function;
 };
 
-function FlowCanvas({ setSelectedID, clearCanvas }: FlowCanvasProps) {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore();
-
-  const [selected, setSelected] = useState("");
+function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    onSelectionChange,
+  } = useStore();
 
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance>();
@@ -50,9 +47,29 @@ function FlowCanvas({ setSelectedID, clearCanvas }: FlowCanvasProps) {
 
   const proOptions = { hideAttribution: true };
 
+  useOnSelectionChange({
+    onChange: ({ nodes, edges }) => {
+      if (nodes.length > 0) {
+        setSelectedID(nodes[0].id);
+        onSelectionChange({
+          hasSelection: true,
+          Node: nodes[0],
+        });
+      } else {
+        setSelectedID("none");
+        onSelectionChange({
+          hasSelection: false,
+          Node: undefined,
+        });
+      }
+    },
+  });
+
   const defaultEdge = {
     type: "step",
   };
+
+  const onSelectionChange2 = () => {};
 
   return (
     <ReactFlow
@@ -60,6 +77,7 @@ function FlowCanvas({ setSelectedID, clearCanvas }: FlowCanvasProps) {
       edges={edges}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
+      onSelectionChange={onSelectionChange2}
       onConnect={onConnect}
       onInit={onInit}
       proOptions={proOptions}

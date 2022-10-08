@@ -22,7 +22,9 @@ type SaveButtonProp = {
 function SaveButton({ text }: SaveButtonProp) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const onSave = (event: MouseEventHandler<HTMLButtonElement>) => {};
+  const onSave = (event: MouseEventHandler<HTMLButtonElement>) => {
+    onClose();
+  };
 
   return (
     <>

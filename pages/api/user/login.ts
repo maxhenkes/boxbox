@@ -1,4 +1,5 @@
 import prisma from "../../../lib/prisma";
+import { setCurrentUser } from "../../../lib/session";
 
 /*
 Fake login for POC

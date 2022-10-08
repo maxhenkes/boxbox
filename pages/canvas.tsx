@@ -30,10 +30,10 @@ const MainView: NextPage = () => {
 
   return (
     <VStack>
-      <TopToolbar clearCanvas={onClearCanvas} />
       <Flex minWidth="100vw" minHeight="100vh" direction="row" gap={0}>
         <Box bg="gray.600" w="77vw">
           <ReactFlowProvider>
+            <TopToolbar clearCanvas={onClearCanvas} />
             <FlowCanvas setSelectedID={setSelected} />
           </ReactFlowProvider>
         </Box>
