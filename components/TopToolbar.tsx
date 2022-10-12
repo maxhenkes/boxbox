@@ -19,15 +19,11 @@ import SaveButton from "./SaveButton";
 
 import useStore from "../state/store";
 
-type TopToolbarProps = {
-  clearCanvas: MouseEventHandler;
-};
-
-function TopToolbar({ clearCanvas }: TopToolbarProps): JSX.Element {
+function TopToolbar(): JSX.Element {
   const { clearNodes } = useStore();
 
   return (
-    <ButtonGroup variant="outline" spacing="3">
+    <ButtonGroup padding={2} shadow="xl" variant="outline" spacing="3">
       <div draggable onDragStart={(event) => {}}>
         <Button leftIcon={<AiOutlineForm />} colorScheme="blue">
           New

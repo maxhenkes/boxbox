@@ -18,6 +18,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Overview from "./Overview";
+import { useVMStore } from "../state/diagramStore";
 
 type CheckType = {
   id: string;
@@ -52,6 +53,12 @@ export default function DetailView({ fields }: DetailViewProps) {
   const handleInputChange = (e) => setInput(e.target.value);
   const isError = input === "";
 
+  const vmID = (fields) => {
+    return fields[0].id;
+  };
+
+  const [vmName, setVMName] = useState("");
+
   if (fields[0].label === "Node none") {
     return (
       <div>
@@ -71,7 +78,7 @@ export default function DetailView({ fields }: DetailViewProps) {
           <FormLabel>VM Name</FormLabel>
           <Input type="text" value={input} onChange={handleInputChange} />
           {!isError ? (
-            <FormHelperText>Enter the VM&aposs name.</FormHelperText>
+            <FormHelperText>Enter the VM&apos;s name.</FormHelperText>
           ) : (
             <FormErrorMessage>Name is required.</FormErrorMessage>
           )}

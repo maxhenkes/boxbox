@@ -21,7 +21,6 @@ export default async function handle(req, res) {
       }
     })
     .catch(function (error) {
-      console.error("SHIT HAPPENED");
       res.status(501).send({ message: "That didnt work" });
       return;
     });

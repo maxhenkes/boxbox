@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import ReactFlow, {
   FitViewOptions,
   ReactFlowInstance,
@@ -9,9 +9,14 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 
 import useStore from "../state/store";
+import vmNode from "./node/vmNode";
 
 const fitViewOptions: FitViewOptions = {
   padding: 0.2,
+};
+
+const nodeTypes = {
+  vmNode: vmNode,
 };
 
 let id = 0;
@@ -22,12 +27,10 @@ const getId = () => {
 
 const onDragOver = (event: DragEvent) => {
   event.preventDefault();
-  console.log("drag");
 };
 
 type FlowCanvasProps = {
   setSelectedID: Function;
-  clearCanvas: Function;
 };
 
 function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
@@ -38,7 +41,26 @@ function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
     onEdgesChange,
     onConnect,
     onSelectionChange,
-  } = useStore();
+    add,
+  } = useStore((state) => ({
+    nodes: state.nodes,
+    edges: state.edges,
+    onNodesChange: state.onNodesChange,
+    onEdgesChange: state.onEdgesChange,
+    onConnect: state.onConnect,
+    onSelectionChange: state.onSelectionChange,
+    add: state.add,
+  }));
+
+  const [localNodes, setLocalNodes] = useState();
+  const [localEdges, setlocalEdges] = useState();
+
+  useEffect(() => {
+    setLocalNodes(nodes);
+  }, [nodes]);
+  useEffect(() => {
+    setlocalEdges(edges);
+  }, [edges]);
 
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance>();
@@ -65,6 +87,27 @@ function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
     },
   });
 
+  const onDrop = useCallback(
+    (event: DragEvent) => {
+      event.preventDefault();
+      if (reactFlowInstance) {
+        const position = reactFlowInstance.project({
+          x: event.clientX - 120,
+          y: event.clientY - 120,
+        });
+
+        const newNode: Node = {
+          id: `test${getId()}`,
+          position,
+          type: "vmNode",
+          data: { label: `test` },
+        };
+        add(newNode);
+      }
+    },
+    [reactFlowInstance],
+  );
+
   const defaultEdge = {
     type: "step",
   };
@@ -73,8 +116,8 @@ function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
 
   return (
     <ReactFlow
-      nodes={nodes}
-      edges={edges}
+      nodes={localNodes}
+      edges={localEdges}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onSelectionChange={onSelectionChange2}
@@ -87,8 +130,10 @@ function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
       fitViewOptions={fitViewOptions}
       connectionLineType={ConnectionLineType.Step}
       onDragOver={onDragOver}
+      onDrop={onDrop}
+      nodeTypes={nodeTypes}
     >
-      <Background variant="dots" size={0.5} color="#81818a" />
+      <Background variant="lines" size={0.1} color="#81818a" />
     </ReactFlow>
   );
 }

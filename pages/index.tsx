@@ -31,8 +31,19 @@ const Home: NextPage = () => {
   };
 
   return (
-    <Flex height="100vh" alignItems="center" justifyContent="center">
-      <Flex direction="column" background="gray.900" p={12} rounded={6}>
+    <Flex
+      className="bgLogin"
+      height="100vh"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Flex
+        direction="column"
+        background="gray.900"
+        shadow={"xl"}
+        p={12}
+        rounded={6}
+      >
         <Heading mb={6}>Welcome</Heading>
         <ErrorMessage isVisible={errorState} />
         <Input
@@ -61,7 +72,7 @@ const ErrorMessage = ({ isVisible }) => {
   if (isVisible) {
     return <Text color="red">Username does not exist</Text>;
   }
-  return <div></div>;
+  return <></>;
 };
 
 export default Home;

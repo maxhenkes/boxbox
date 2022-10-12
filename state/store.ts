@@ -1,4 +1,5 @@
 import create from "zustand";
+import { persist } from "zustand/middleware";
 import {
   Connection,
   Edge,
@@ -40,9 +41,9 @@ const initialEdges: Edge[] = [
 ];
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
-const useStore = create<RFState>((set, get) => ({
-  nodes: initialNodes,
-  edges: initialEdges,
+const useStore = create<RFState>()((set, get) => ({
+  nodes: [],
+  edges: [],
   clearNodes: () => {
     set({
       nodes: [],
