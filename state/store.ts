@@ -41,40 +41,47 @@ const initialEdges: Edge[] = [
 ];
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
-const useStore = create<RFState>()((set, get) => ({
-  nodes: [],
-  edges: [],
-  clearNodes: () => {
-    set({
+const useStore = create<RFState>()(
+  persist(
+    (set, get) => ({
       nodes: [],
-    });
-  },
-  selected: { hasSelection: false, node: undefined },
-  onSelectionChange: (changes: nodeSelection) => {
-    set({
-      selected: changes,
-    });
-  },
-  onNodesChange: (changes: NodeChange[]) => {
-    set({
-      nodes: applyNodeChanges(changes, get().nodes),
-    });
-  },
-  onEdgesChange: (changes: EdgeChange[]) => {
-    set({
-      edges: applyEdgeChanges(changes, get().edges),
-    });
-  },
-  onConnect: (connection: Connection) => {
-    set({
-      edges: addEdge(connection, get().edges),
-    });
-  },
-  add: (node: Node) => {
-    set({
-      nodes: get().nodes.concat(node),
-    });
-  },
-}));
+      edges: [],
+      clearNodes: () => {
+        set({
+          nodes: [],
+        });
+      },
+      selected: { hasSelection: false, node: undefined },
+      onSelectionChange: (changes: nodeSelection) => {
+        set({
+          selected: changes,
+        });
+      },
+      onNodesChange: (changes: NodeChange[]) => {
+        set({
+          nodes: applyNodeChanges(changes, get().nodes),
+        });
+      },
+      onEdgesChange: (changes: EdgeChange[]) => {
+        set({
+          edges: applyEdgeChanges(changes, get().edges),
+        });
+      },
+      onConnect: (connection: Connection) => {
+        set({
+          edges: addEdge(connection, get().edges),
+        });
+      },
+      add: (node: Node) => {
+        set({
+          nodes: get().nodes.concat(node),
+        });
+      },
+    }),
+    {
+      name: "test",
+    },
+  ),
+);
 
 export default useStore;
