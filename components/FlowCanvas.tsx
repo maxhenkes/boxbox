@@ -19,12 +19,6 @@ const nodeTypes = {
   vmNode: vmNode,
 };
 
-let id = 0;
-const getId = () => {
-  id++;
-  return id;
-};
-
 const onDragOver = (event: DragEvent) => {
   event.preventDefault();
 };
@@ -42,6 +36,8 @@ function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
     onConnect,
     onSelectionChange,
     add,
+    nextId,
+    id,
   } = useStore((state) => ({
     nodes: state.nodes,
     edges: state.edges,
@@ -50,10 +46,17 @@ function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
     onConnect: state.onConnect,
     onSelectionChange: state.onSelectionChange,
     add: state.add,
+    nextId: state.nextId,
+    id: state.id,
   }));
 
   const [localNodes, setLocalNodes] = useState();
   const [localEdges, setlocalEdges] = useState();
+  const [currentId, setCurrentId] = useState();
+
+  useEffect(() => {
+    setCurrentId(id);
+  }, [id]);
 
   useEffect(() => {
     setLocalNodes(nodes);
@@ -87,26 +90,25 @@ function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
     },
   });
 
-  const onDrop = useCallback(
-    (event: DragEvent) => {
-      event.preventDefault();
-      if (reactFlowInstance) {
-        const position = reactFlowInstance.project({
-          x: event.clientX - 120,
-          y: event.clientY - 120,
-        });
+  const onDrop = (event: DragEvent) => {
+    event.preventDefault();
+    if (reactFlowInstance) {
+      const position = reactFlowInstance.project({
+        x: event.clientX - 120,
+        y: event.clientY - 120,
+      });
 
-        const newNode: Node = {
-          id: `test${getId()}`,
-          position,
-          type: "vmNode",
-          data: { label: `test` },
-        };
-        add(newNode);
-      }
-    },
-    [reactFlowInstance],
-  );
+      console.log(currentId);
+
+      const newNode: Node = {
+        id: `node-${currentId}`,
+        position,
+        data: { label: `test` },
+      };
+      add(newNode);
+      nextId();
+    }
+  };
 
   const defaultEdge = {
     type: "step",

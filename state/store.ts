@@ -13,6 +13,18 @@ import {
   applyNodeChanges,
   applyEdgeChanges,
 } from "reactflow";
+import { createDataSlice } from "./dataSlice";
+import { createVisualSlice } from "./visualSlice";
+
+export const useDiagramStore = create<any>(
+  persist(
+    (...a) => ({
+      ...createDataSlice(...a),
+      ...createVisualSlice(...a),
+    }),
+    { name: "diagramStore", version: 1 },
+  ),
+);
 
 type nodeSelection = {
   hasSelection: boolean;
@@ -22,6 +34,7 @@ type nodeSelection = {
 type RFState = {
   nodes: Node[];
   edges: Edge[];
+  id: number;
   selected: nodeSelection;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
@@ -29,6 +42,7 @@ type RFState = {
   add: Function;
   clearNodes: Function;
   onSelectionChange: Function;
+  nextId: Function;
 };
 
 const initialNodes: Node[] = [
@@ -46,10 +60,13 @@ const useStore = create<RFState>()(
     (set, get) => ({
       nodes: [],
       edges: [],
+      id: 0,
+      nextId: () => set((state) => ({ id: state.id + 1 })),
       clearNodes: () => {
-        set({
+        set((state) => ({
           nodes: [],
-        });
+          id: 0,
+        }));
       },
       selected: { hasSelection: false, node: undefined },
       onSelectionChange: (changes: nodeSelection) => {
