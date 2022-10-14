@@ -15,6 +15,7 @@ export const createVisualSlice = (set, get) => ({
   clearNodes: () => {
     set((state) => ({
       nodes: [],
+      edges: [],
       id: 0,
     }));
   },

@@ -7,8 +7,9 @@ import ReactFlow, {
   useOnSelectionChange,
 } from "reactflow";
 import "reactflow/dist/style.css";
+import { vmType } from "../state/dataSlice";
+import { useDiagramStore } from "../state/store";
 
-import useStore from "../state/store";
 import vmNode from "./node/vmNode";
 
 const fitViewOptions: FitViewOptions = {
@@ -38,7 +39,7 @@ function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
     add,
     nextId,
     id,
-  } = useStore((state) => ({
+  } = useDiagramStore((state) => ({
     nodes: state.nodes,
     edges: state.edges,
     onNodesChange: state.onNodesChange,
@@ -48,6 +49,10 @@ function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
     add: state.add,
     nextId: state.nextId,
     id: state.id,
+  }));
+
+  const { addDataNode } = useDiagramStore((state) => ({
+    addDataNode: state.addDataNode,
   }));
 
   const [localNodes, setLocalNodes] = useState();
@@ -98,14 +103,21 @@ function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
         y: event.clientY - 120,
       });
 
-      console.log(currentId);
+      const newNodeLabel = "Test";
 
       const newNode: Node = {
         id: `node-${currentId}`,
         position,
-        data: { label: `test` },
+        data: { label: newNodeLabel },
       };
+
+      const newDataNode: vmType = {
+        id,
+        name: newNodeLabel,
+      };
+
       add(newNode);
+      addDataNode(newDataNode);
       nextId();
     }
   };

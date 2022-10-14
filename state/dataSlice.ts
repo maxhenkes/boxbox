@@ -1,4 +1,4 @@
-type vmType = {
+export type vmType = {
   id: string;
   name: string;
   cores?: number;
@@ -17,4 +17,5 @@ export const createDataSlice = (set, get) => ({
     set((state) => ({ diagramMap: state.diagramMap.dete(id) })),
   updateDataNode: (vm: vmType) =>
     set((state) => ({ diagramMap: state.diagramMap.set(vm.id, vm) })),
+  clearData: () => get().diagramMap.clear(),
 });

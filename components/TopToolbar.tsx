@@ -15,12 +15,16 @@ import {
   AiOutlineCloudUpload,
   AiOutlineClear,
 } from "react-icons/ai";
+import { useDiagramStore } from "../state/store";
 import SaveButton from "./SaveButton";
 
-import useStore from "../state/store";
-
 function TopToolbar(): JSX.Element {
-  const { clearNodes } = useStore();
+  const { clearNodes, clearData } = useDiagramStore();
+
+  const clearAll = () => {
+    clearNodes();
+    clearData();
+  };
 
   return (
     <ButtonGroup padding={2} shadow="xl" variant="outline" spacing="3">
@@ -31,7 +35,7 @@ function TopToolbar(): JSX.Element {
       </div>
       <Button leftIcon={<AiOutlineCloudUpload />}>Load</Button>
       <SaveButton text="Save"></SaveButton>
-      <Alert clear={clearNodes}></Alert>
+      <Alert clear={clearAll}></Alert>
     </ButtonGroup>
   );
 }

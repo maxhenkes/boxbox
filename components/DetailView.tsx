@@ -18,7 +18,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Overview from "./Overview";
-import { useVMStore } from "../state/diagramStore";
 
 type CheckType = {
   id: string;
@@ -56,8 +55,6 @@ export default function DetailView({ fields }: DetailViewProps) {
   const vmID = (fields) => {
     return fields[0].id;
   };
-
-  const [vmName, setVMName] = useState("");
 
   if (fields[0].label === "Node none") {
     return (
