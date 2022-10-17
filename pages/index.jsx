@@ -1,16 +1,15 @@
-import type { NextPage } from "next";
 import Router from "next/router";
 import { Flex, Heading, Input, Button, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
-const Home: NextPage = () => {
+const Home = () => {
   const [errorState, setError] = useState(false);
   const [username, setUsername] = useState("");
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
 
-  const submitData = async (e: React.SyntheticEvent) => {
+  const submitData = async (e) => {
     e.preventDefault();
     try {
       const body = { username };

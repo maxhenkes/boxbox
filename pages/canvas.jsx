@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import { useRef, useState } from "react";
 import FlowCanvas from "../components/FlowCanvas";
 import TopToolbar from "../components/TopToolbar";
@@ -6,7 +5,7 @@ import DetailView from "../components/DetailView";
 import { VStack, Flex, Box } from "@chakra-ui/react";
 import { ReactFlowProvider } from "reactflow";
 
-const MainView: NextPage = () => {
+const MainView = () => {
   return (
     <VStack>
       <Flex minWidth="100vw" minHeight="100vh" direction="row" gap={0}>

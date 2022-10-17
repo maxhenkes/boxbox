@@ -20,43 +20,15 @@ import {
 import Overview from "./Overview";
 import { useDiagramStore } from "../state/store";
 
-type CheckType = {
-  id: string;
-  label: string;
-  default?: number;
-  multiple?: boolean;
-};
-
-type NumberType = {
-  id: string;
-  label: string;
-  default?: number;
-  limit?: NumberTypeLimit;
-};
-
-type NumberTypeLimit = {
-  min: number;
-  max: number;
-};
-
-export type TextType = {
-  id: string;
-  label: string;
-  default?: string;
-  large?: boolean;
-};
-
-export type DetailViewProps = (CheckType | NumberType | TextType)[];
-
 export default function DetailView() {
   const [input, setInput] = useState("");
 
-  const { selectedNode, diagramMap, getDataNode, nodes } = useDiagramStore(
+  const { selectedNode, diagramMap, nodes, setNodeLabel } = useDiagramStore(
     (state) => ({
       selectedNode: state.selectedNode,
       diagramMap: state.diagramMap,
-      getDataNode: state.getDataNode,
       nodes: state.nodes,
+      setNodeLabel: state.setNodeLabel,
     }),
   );
 
@@ -64,8 +36,7 @@ export default function DetailView() {
     setInput(e.target.value);
     diagramMap[selectedNode].name = e.target.value;
     console.log(nodes);
-    const index = nodes.findIndex((obj) => obj.id === selectedNode);
-    nodes[index].data.label = e.target.value;
+    setNodeLabel(selectedNode, e.target.value);
   };
   const isError = input === "";
 

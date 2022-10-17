@@ -1,3 +1,4 @@
+import nodeTest from "node:test";
 import {
   NodeChange,
   applyNodeChanges,
@@ -32,6 +33,14 @@ export const useDiagramStore = create<any>((set, get) => ({
       edges: [],
       id: 0,
     }));
+  },
+  setNodeLabel: (id: string, label: string) => {
+    set((state) => {
+      const arr = state.nodes;
+      const index = arr.findIndex((obj: Node) => obj.id === id);
+      arr[index].data.label = label;
+      return { nodes: arr };
+    });
   },
   onNodesChange: (changes: NodeChange[]) => {
     set({
@@ -75,12 +84,6 @@ export const useDiagramStore = create<any>((set, get) => ({
   setSelectedNode: (id: string) => {
     set(() => ({ selectedNode: id }));
   },
-  addDataNode: (vm: vmType) =>
-    set((state) => {
-      const updatedMap = new Map(state.diagramMap);
-      updatedMap.set(vm.id, vm);
-      return { diagramMap: updatedMap };
-    }),
   removeDataNode: (id: string) =>
     set((state) => ({ diagramMap: state.diagramMap.delete(id) })),
   updateDataNode: (vm: vmType) =>

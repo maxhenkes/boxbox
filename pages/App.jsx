@@ -1,8 +1,7 @@
-import { NextPage } from "next";
 import NavBar from "../components/nav/NavBar";
 import MainView from "./canvas";
 
-const App: NextPage = () => {
+const App = () => {
   return (
     <div>
       <NavBar />

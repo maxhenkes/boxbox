@@ -3,6 +3,7 @@
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "checkJs": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -15,6 +16,16 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "pages/user.jsx",
+    "pages/App.jsx",
+    "pages/canvas.jsx",
+    "components/DetailView.jsx",
+    "state/store.js",
+    "pages/index.jsx"
+  ],
   "exclude": ["node_modules"]
 }

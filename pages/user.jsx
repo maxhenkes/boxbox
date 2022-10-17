@@ -12,12 +12,9 @@ import {
   useToast,
   Spinner,
 } from "@chakra-ui/react";
-import { GetServerSideProps } from "next";
-import { off } from "process";
 import { useState } from "react";
 import NavBar from "../components/nav/NavBar";
 import prisma from "../lib/prisma";
-import { getVersionURL } from "../lib/proxmox";
 
 export const getServerSideProps = async ({ req }) => {
   const dbUserData = await prisma.user.findUnique({
