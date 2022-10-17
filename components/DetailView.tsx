@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Heading,
   Divider,
@@ -18,6 +18,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Overview from "./Overview";
+import { useDiagramStore } from "../state/store";
 
 type CheckType = {
   id: string;
@@ -47,16 +48,28 @@ export type TextType = {
 
 export type DetailViewProps = (CheckType | NumberType | TextType)[];
 
-export default function DetailView({ fields }: DetailViewProps) {
+export default function DetailView() {
   const [input, setInput] = useState("");
-  const handleInputChange = (e) => setInput(e.target.value);
+
+  const { selectedNode, diagramMap, getDataNode, nodes } = useDiagramStore(
+    (state) => ({
+      selectedNode: state.selectedNode,
+      diagramMap: state.diagramMap,
+      getDataNode: state.getDataNode,
+      nodes: state.nodes,
+    }),
+  );
+
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
+    diagramMap[selectedNode].name = e.target.value;
+    console.log(nodes);
+    const index = nodes.findIndex((obj) => obj.id === selectedNode);
+    nodes[index].data.label = e.target.value;
+  };
   const isError = input === "";
 
-  const vmID = (fields) => {
-    return fields[0].id;
-  };
-
-  if (fields[0].label === "Node none") {
+  if (!selectedNode || selectedNode === "none") {
     return (
       <div>
         <Heading>Overview</Heading>
@@ -70,7 +83,7 @@ export default function DetailView({ fields }: DetailViewProps) {
       <Heading>Current Selected</Heading>
       <Divider mb={4} />
       <VStack>
-        <Text>{fields[0].label}</Text>
+        <Text>{diagramMap[selectedNode].name}</Text>
         <FormControl isInvalid={isError}>
           <FormLabel>VM Name</FormLabel>
           <Input type="text" value={input} onChange={handleInputChange} />

@@ -28,18 +28,6 @@ a {
   }
 }
 
-.react-flow__attribution {
-  visibility: hidden;
-}
-
-.btn1 {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  z-index: 4;
-  font-size: 12px;
-}
-
 .bgLogin {
   background-image: linear-gradient(
     to bottom,

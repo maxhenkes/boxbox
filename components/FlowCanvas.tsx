@@ -7,7 +7,6 @@ import ReactFlow, {
   useOnSelectionChange,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { vmType } from "../state/dataSlice";
 import { useDiagramStore } from "../state/store";
 
 import vmNode from "./node/vmNode";
@@ -24,51 +23,24 @@ const onDragOver = (event: DragEvent) => {
   event.preventDefault();
 };
 
-type FlowCanvasProps = {
-  setSelectedID: Function;
-};
-
-function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
+function FlowCanvas() {
   const {
     nodes,
     edges,
     onNodesChange,
     onEdgesChange,
     onConnect,
-    onSelectionChange,
-    add,
-    nextId,
-    id,
+    setSelectedNode,
+    addNode,
   } = useDiagramStore((state) => ({
     nodes: state.nodes,
     edges: state.edges,
     onNodesChange: state.onNodesChange,
     onEdgesChange: state.onEdgesChange,
     onConnect: state.onConnect,
-    onSelectionChange: state.onSelectionChange,
-    add: state.add,
-    nextId: state.nextId,
-    id: state.id,
+    setSelectedNode: state.setSelectedNode,
+    addNode: state.addNode,
   }));
-
-  const { addDataNode } = useDiagramStore((state) => ({
-    addDataNode: state.addDataNode,
-  }));
-
-  const [localNodes, setLocalNodes] = useState();
-  const [localEdges, setlocalEdges] = useState();
-  const [currentId, setCurrentId] = useState();
-
-  useEffect(() => {
-    setCurrentId(id);
-  }, [id]);
-
-  useEffect(() => {
-    setLocalNodes(nodes);
-  }, [nodes]);
-  useEffect(() => {
-    setlocalEdges(edges);
-  }, [edges]);
 
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance>();
@@ -80,17 +52,9 @@ function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
   useOnSelectionChange({
     onChange: ({ nodes, edges }) => {
       if (nodes.length > 0) {
-        setSelectedID(nodes[0].id);
-        onSelectionChange({
-          hasSelection: true,
-          Node: nodes[0],
-        });
+        setSelectedNode(nodes[0].id);
       } else {
-        setSelectedID("none");
-        onSelectionChange({
-          hasSelection: false,
-          Node: undefined,
-        });
+        setSelectedNode("none");
       }
     },
   });
@@ -106,19 +70,12 @@ function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
       const newNodeLabel = "Test";
 
       const newNode: Node = {
-        id: `node-${currentId}`,
+        id: "",
         position,
         data: { label: newNodeLabel },
       };
 
-      const newDataNode: vmType = {
-        id,
-        name: newNodeLabel,
-      };
-
-      add(newNode);
-      addDataNode(newDataNode);
-      nextId();
+      addNode(newNode);
     }
   };
 
@@ -130,8 +87,8 @@ function FlowCanvas({ setSelectedID }: FlowCanvasProps) {
 
   return (
     <ReactFlow
-      nodes={localNodes}
-      edges={localEdges}
+      nodes={nodes}
+      edges={edges}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onSelectionChange={onSelectionChange2}

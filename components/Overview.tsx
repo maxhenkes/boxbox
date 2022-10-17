@@ -7,15 +7,9 @@ export default function Overview() {
     nodes: state.nodes,
   }));
 
-  const [localNodes, setLocalNodes] = useState([]);
-
-  useEffect(() => {
-    setLocalNodes(nodes);
-  }, [nodes]);
-
   return (
     <>
-      <Text>VM&apos;s: {localNodes.length}</Text>
+      <Text>VM&apos;s: {nodes.length}</Text>
     </>
   );
 }
