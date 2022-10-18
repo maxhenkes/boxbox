@@ -16,29 +16,43 @@ import {
   VStack,
   HStack,
   Text,
+  Button,
 } from "@chakra-ui/react";
 import Overview from "./Overview";
 import { useDiagramStore } from "../state/store";
 
 export default function DetailView() {
-  const [input, setInput] = useState("");
-
-  const { selectedNode, diagramMap, nodes, setNodeLabel } = useDiagramStore(
-    (state) => ({
+  const { selectedNode, diagramMap, nodes, setNodeLabel, addHandle } =
+    useDiagramStore((state) => ({
       selectedNode: state.selectedNode,
       diagramMap: state.diagramMap,
       nodes: state.nodes,
       setNodeLabel: state.setNodeLabel,
-    }),
-  );
+      addHandle: state.addHandle,
+    }));
+
+  const getVMName = () => {
+    const hasSelection = !selectedNode || selectedNode === "none";
+
+    if (!hasSelection) {
+      setIsError(false);
+      return diagramMap[selectedNode].name;
+    }
+    setIsError(true);
+    return "";
+  };
+
+  const [vmName, setVmName] = useState("");
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    setVmName(getVMName());
+  }, [selectedNode]);
 
   const handleInputChange = (e) => {
-    setInput(e.target.value);
-    diagramMap[selectedNode].name = e.target.value;
-    console.log(nodes);
+    setVmName(e.target.value);
     setNodeLabel(selectedNode, e.target.value);
   };
-  const isError = input === "";
 
   if (!selectedNode || selectedNode === "none") {
     return (
@@ -49,6 +63,11 @@ export default function DetailView() {
       </div>
     );
   }
+
+  const addHandleClick = () => {
+    addHandle(selectedNode);
+  };
+
   return (
     <div>
       <Heading>Current Selected</Heading>
@@ -57,7 +76,7 @@ export default function DetailView() {
         <Text>{diagramMap[selectedNode].name}</Text>
         <FormControl isInvalid={isError}>
           <FormLabel>VM Name</FormLabel>
-          <Input type="text" value={input} onChange={handleInputChange} />
+          <Input type="text" value={vmName} onChange={handleInputChange} />
           {!isError ? (
             <FormHelperText>Enter the VM&apos;s name.</FormHelperText>
           ) : (
@@ -75,6 +94,7 @@ export default function DetailView() {
             </NumberInputStepper>
           </NumberInput>
         </HStack>
+        <Button onClick={addHandleClick}>Add Handle</Button>
       </VStack>
     </div>
   );

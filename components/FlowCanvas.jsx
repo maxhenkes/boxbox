@@ -1,7 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
 import ReactFlow, {
-  FitViewOptions,
-  ReactFlowInstance,
   Background,
   ConnectionLineType,
   useOnSelectionChange,
@@ -9,9 +7,9 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { useDiagramStore } from "../state/store";
 
-import vmNode from "./node/vmNode";
+import { vmNode } from "./node/vmNode";
 
-const fitViewOptions: FitViewOptions = {
+const fitViewOptions = {
   padding: 0.2,
 };
 
@@ -19,7 +17,7 @@ const nodeTypes = {
   vmNode: vmNode,
 };
 
-const onDragOver = (event: DragEvent) => {
+const onDragOver = (event) => {
   event.preventDefault();
 };
 
@@ -42,10 +40,9 @@ function FlowCanvas() {
     addNode: state.addNode,
   }));
 
-  const [reactFlowInstance, setReactFlowInstance] =
-    useState<ReactFlowInstance>();
+  const [reactFlowInstance, setReactFlowInstance] = useState();
 
-  const onInit = (rfi: ReactFlowInstance) => setReactFlowInstance(rfi);
+  const onInit = (rfi) => setReactFlowInstance(rfi);
 
   const proOptions = { hideAttribution: true };
 
@@ -59,7 +56,7 @@ function FlowCanvas() {
     },
   });
 
-  const onDrop = (event: DragEvent) => {
+  const onDrop = (event) => {
     event.preventDefault();
     if (reactFlowInstance) {
       const position = reactFlowInstance.project({
@@ -67,12 +64,11 @@ function FlowCanvas() {
         y: event.clientY - 120,
       });
 
-      const newNodeLabel = "Test";
-
-      const newNode: Node = {
+      const newNode = {
         id: "",
         position,
-        data: { label: newNodeLabel },
+        type: "vmNode",
+        data: {},
       };
 
       addNode(newNode);
@@ -96,7 +92,6 @@ function FlowCanvas() {
       onInit={onInit}
       proOptions={proOptions}
       defaultEdgeOptions={defaultEdge}
-      snapToGrid={true}
       fitView
       fitViewOptions={fitViewOptions}
       connectionLineType={ConnectionLineType.Step}

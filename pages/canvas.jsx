@@ -8,19 +8,19 @@ import { ReactFlowProvider } from "reactflow";
 const MainView = () => {
   return (
     <VStack>
-      <Flex minWidth="100vw" minHeight="100vh" direction="row" gap={0}>
-        <Box bg="gray.600" w="77vw">
-          <ReactFlowProvider>
+      <ReactFlowProvider>
+        <Flex minWidth="100vw" minHeight="100vh" direction="row" gap={0}>
+          <Box bg="gray.600" w="77vw">
             <TopToolbar />
             <FlowCanvas />
-          </ReactFlowProvider>
-        </Box>
-        <Box bg="gray.700" minWidth="23vw">
-          <Box margin={5}>
-            <DetailView />
           </Box>
-        </Box>
-      </Flex>
+          <Box bg="gray.700" minWidth="23vw">
+            <Box margin={5}>
+              <DetailView />
+            </Box>
+          </Box>
+        </Flex>
+      </ReactFlowProvider>
     </VStack>
   );
 };
