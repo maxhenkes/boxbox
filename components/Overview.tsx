@@ -7,9 +7,5 @@ export default function Overview() {
     nodes: state.nodes,
   }));
 
-  return (
-    <>
-      <Text>VM&apos;s: {nodes.length}</Text>
-    </>
-  );
+  return <Text>VM&apos;s: {nodes.length}</Text>;
 }

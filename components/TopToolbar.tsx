@@ -20,7 +20,9 @@ import { useDiagramStore } from "../state/store";
 import SaveButton from "./SaveButton";
 
 function TopToolbar(): JSX.Element {
-  const { clearNodes } = useDiagramStore();
+  const { clearNodes } = useDiagramStore((state) => ({
+    clearNodes: state.clearNodes,
+  }));
 
   const clearAll = () => {
     clearNodes();
@@ -29,11 +31,9 @@ function TopToolbar(): JSX.Element {
   return (
     <Box bg="gray.700">
       <ButtonGroup padding={2} variant="outline" spacing="3">
-        <div>
-          <Button leftIcon={<AiOutlineForm />} colorScheme="blue">
-            New
-          </Button>
-        </div>
+        <Button leftIcon={<AiOutlineForm />} colorScheme="blue">
+          New
+        </Button>
         <Button leftIcon={<AiOutlineCloudUpload />}>Load</Button>
         <SaveButton text="Save"></SaveButton>
         <Alert clear={clearAll}></Alert>

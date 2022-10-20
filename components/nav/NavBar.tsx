@@ -1,6 +1,6 @@
 import { MouseEventHandler, useState } from "react";
 import { VscChromeClose, VscMenu } from "react-icons/vsc";
-import { LoadDrawer } from "../LoadDrawer";
+
 import NextLink from "next/link";
 import {
   Box,
@@ -57,11 +57,6 @@ const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
 };
 
 const MenuLinks = ({ isOpen }) => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const openDrawer = () => {
-    setDrawerOpen(true);
-  };
-
   return (
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
@@ -76,8 +71,6 @@ const MenuLinks = ({ isOpen }) => {
       >
         <MenuItem to="/App">Canvas</MenuItem>
         <MenuItem to="/diagrams">My Diagrams</MenuItem>
-        <Link onClick={openDrawer}>Load</Link>
-        <LoadDrawer isOpen={drawerOpen} setOpen={setDrawerOpen}></LoadDrawer>
         <MenuItem to="/user" isLast>
           <Tooltip label="test">
             <Avatar name="test" size="md"></Avatar>

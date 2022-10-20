@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import ReactFlow, {
   Background,
   ConnectionLineType,
+  MiniMap,
   useOnSelectionChange,
 } from "reactflow";
 import "reactflow/dist/style.css";
@@ -106,7 +107,13 @@ function FlowCanvas() {
       onDrop={onDrop}
       nodeTypes={nodeTypes}
     >
-      <Background variant="lines" size={0.1} color="#81818a" />
+      <Background
+        variant="cross"
+        gap={25}
+        size={7}
+        lineWidth={0.5}
+        color="#81818a"
+      />
     </ReactFlow>
   );
 }

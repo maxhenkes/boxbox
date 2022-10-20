@@ -56,16 +56,16 @@ export default function DetailView() {
 
   if (!selectedNode || selectedNode === "none") {
     return (
-      <div>
+      <>
         <Heading>Overview</Heading>
         <Divider mb={4} />
         <Overview></Overview>
-      </div>
+      </>
     );
   }
 
   return (
-    <div>
+    <>
       <Heading>Current Selected</Heading>
       <Divider mb={4} />
       <VStack>
@@ -91,6 +91,6 @@ export default function DetailView() {
           </NumberInput>
         </HStack>
       </VStack>
-    </div>
+    </>
   );
 }

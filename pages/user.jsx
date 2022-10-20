@@ -112,7 +112,7 @@ const User = ({ dbUserData }) => {
   };
 
   return (
-    <div>
+    <>
       <NavBar />
       <Box bg="gray.600" minWidth="100%" minHeight="100vh">
         <Container bg="gray.700" minWidth="60%" minHeight="100vh">
@@ -174,7 +174,7 @@ const User = ({ dbUserData }) => {
           </HStack>
         </Container>
       </Box>
-    </div>
+    </>
   );
 };
 
