@@ -12,8 +12,9 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useState } from "react";
 import { AiOutlineCloudDownload } from "react-icons/ai";
+import { useDiagramStore } from "../state/store";
 
 type SaveButtonProp = {
   text: string;
@@ -21,8 +22,25 @@ type SaveButtonProp = {
 
 function SaveButton({ text }: SaveButtonProp) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { nodes, diagramMap } = useDiagramStore((state) => ({
+    nodes: state.nodes,
+    diagramMap: state.diagramMap,
+  }));
 
-  const onSave = (event: MouseEventHandler<HTMLButtonElement>) => {
+  const [diagramName, setDiagramName] = useState("");
+
+  const onSave = async (event: MouseEventHandler<HTMLButtonElement>) => {
+    try {
+      const body = { nodes, data: diagramMap, name: diagramName };
+      const reply = await fetch("/api/diagram/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      console.log(reply);
+    } catch (error) {
+      console.error(error);
+    }
     onClose();
   };
 
@@ -44,7 +62,11 @@ function SaveButton({ text }: SaveButtonProp) {
           <ModalBody pb={6}>
             <FormControl isRequired>
               <FormLabel>Name</FormLabel>
-              <Input placeholder="Diagram name" />
+              <Input
+                value={diagramName}
+                onChange={(e) => setDiagramName(e.target.value)}
+                placeholder="Diagram name"
+              />
             </FormControl>
           </ModalBody>
 

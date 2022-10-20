@@ -64,10 +64,6 @@ export default function DetailView() {
     );
   }
 
-  const addHandleClick = () => {
-    addHandle(selectedNode);
-  };
-
   return (
     <div>
       <Heading>Current Selected</Heading>
@@ -94,7 +90,6 @@ export default function DetailView() {
             </NumberInputStepper>
           </NumberInput>
         </HStack>
-        <Button onClick={addHandleClick}>Add Handle</Button>
       </VStack>
     </div>
   );

@@ -5,6 +5,8 @@ import {
   applyEdgeChanges,
   Connection,
   addEdge,
+  Node,
+  Edge,
 } from "reactflow";
 import create from "zustand";
 import { persist } from "zustand/middleware";
@@ -37,6 +39,8 @@ export const useDiagramStore = create<any>(
         nodes: [],
         edges: [],
         id: 1,
+        diagramMap: {},
+        selectedNode: "",
       }));
     },
     setNodeLabel: (id: string, label: string) => {
@@ -74,7 +78,8 @@ export const useDiagramStore = create<any>(
         const nodeID = get().id;
         get().nextId();
         const finalId = `node-${nodeID}`;
-        const newNodeLabel = `VM-${nodeID}`;
+        const type = node.data.type;
+        const newNodeLabel = `${type}-${nodeID}`;
         node.id = finalId;
         node.data.label = newNodeLabel;
 
@@ -100,6 +105,5 @@ export const useDiagramStore = create<any>(
       set((state) => ({ diagramMap: state.diagramMap.delete(id) })),
     updateDataNode: (vm: vmType) =>
       set((state) => ({ diagramMap: state.diagramMap.set(vm.id, vm) })),
-    clearData: () => set((state) => ({ diagramMap: {} })),
   })),
 );

@@ -8,6 +8,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   useDisclosure,
+  Box,
 } from "@chakra-ui/react";
 import { MouseEventHandler, useRef } from "react";
 import {
@@ -19,24 +20,25 @@ import { useDiagramStore } from "../state/store";
 import SaveButton from "./SaveButton";
 
 function TopToolbar(): JSX.Element {
-  const { clearNodes, clearData } = useDiagramStore();
+  const { clearNodes } = useDiagramStore();
 
   const clearAll = () => {
     clearNodes();
-    clearData();
   };
 
   return (
-    <ButtonGroup padding={2} shadow="xl" variant="outline" spacing="3">
-      <div draggable onDragStart={(event) => {}}>
-        <Button leftIcon={<AiOutlineForm />} colorScheme="blue">
-          New
-        </Button>
-      </div>
-      <Button leftIcon={<AiOutlineCloudUpload />}>Load</Button>
-      <SaveButton text="Save"></SaveButton>
-      <Alert clear={clearAll}></Alert>
-    </ButtonGroup>
+    <Box bg="gray.700">
+      <ButtonGroup padding={2} variant="outline" spacing="3">
+        <div>
+          <Button leftIcon={<AiOutlineForm />} colorScheme="blue">
+            New
+          </Button>
+        </div>
+        <Button leftIcon={<AiOutlineCloudUpload />}>Load</Button>
+        <SaveButton text="Save"></SaveButton>
+        <Alert clear={clearAll}></Alert>
+      </ButtonGroup>
+    </Box>
   );
 }
 

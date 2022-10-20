@@ -1,6 +1,6 @@
 import { Box, Center, HStack, Icon, Text } from "@chakra-ui/react";
 import { Handle } from "reactflow";
-import { GoServer } from "react-icons/go";
+import { getIcon } from "../../util/icon-helper";
 
 export const vmNode = ({ data, isConnectable }) => {
   return (
@@ -16,7 +16,7 @@ export const vmNode = ({ data, isConnectable }) => {
           borderLeftRadius={4}
         >
           <Center>
-            <Icon as={GoServer} color="gray.200" w={10} h={10} />
+            <Icon as={getIcon(data.icon)} color="gray.200" w={10} h={10} />
           </Center>
         </Box>
         <Box
@@ -28,7 +28,7 @@ export const vmNode = ({ data, isConnectable }) => {
           borderColor="gray.900"
           borderRightRadius={4}
         >
-          <Text noOfLines={1} fontSize="3xs" color="gray.800">
+          <Text noOfLines={1} fontSize="2xs" color="gray.800">
             {/*TODO: Add node overview data */}
             {data.label}
           </Text>

@@ -19,23 +19,49 @@ model User {
 }
 
 model Diagram {
-  id     Int     @id @default(autoincrement())
-  name   String?
-  userId Int?
-  User   User?   @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  name      String?
+  userId    Int?
+  User      User?    @relation(fields: [userId], references: [id])
+  nodes     Node[]
+  edges     Edge[]
+  data      Data[]
+  createdAt DateTime @default(now())
+}
+
+model Data {
+  id          Int      @id @default(autoincrement())
+  internalId  String
+  name        String
+  iso         String?
+  cores       Int?
+  cpulimit    Int?
+  description String?
+  freeze      Boolean?
+  memory      Int?
+  onBoot      Boolean?
+  Diagram     Diagram? @relation(fields: [diagramId], references: [id])
+  diagramId   Int?
 }
 
 model Node {
-  id             Int               @id @default(autoincrement())
-  outConnections NodeConnections[] @relation("outConnection")
-  inConnections  NodeConnections[] @relation("inConnection")
+  id                Int      @id @default(autoincrement())
+  internalId        String
+  xPos              Float
+  yPos              Float
+  dataLabel         String
+  dataIcon          String
+  dataTopHandles    Int?
+  dataBottomHandles Int?
+  Diagram           Diagram? @relation(fields: [diagramId], references: [id])
+  diagramId         Int?
 }
 
-model NodeConnections {
-  outConnection Node @relation("outConnection", fields: [outNodeId], references: [id])
-  outNodeId     Int
-  inConnection  Node @relation("inConnection", fields: [inNodeId], references: [id])
-  inNodeId      Int
-
-  @@id([outNodeId, inNodeId])
+model Edge {
+  id         Int      @id @default(autoincrement())
+  internalId String
+  source     String
+  target     String
+  Diagram    Diagram? @relation(fields: [diagramId], references: [id])
+  diagramId  Int?
 }

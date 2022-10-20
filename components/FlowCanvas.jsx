@@ -58,6 +58,10 @@ function FlowCanvas() {
 
   const onDrop = (event) => {
     event.preventDefault();
+
+    const icon = event.dataTransfer.getData("node/icon");
+    const type = event.dataTransfer.getData("node/id");
+
     if (reactFlowInstance) {
       const position = reactFlowInstance.project({
         x: event.clientX - 120,
@@ -68,7 +72,10 @@ function FlowCanvas() {
         id: "",
         position,
         type: "vmNode",
-        data: {},
+        data: {
+          icon: icon,
+          type: type,
+        },
       };
 
       addNode(newNode);
