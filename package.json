@@ -8,9 +8,11 @@
     "start": "next start",
     "start:prod": "next start",
     "start:migrate:prod": "npx prisma migrate deploy && node server.js",
-    "lint": "next lint"
+    "lint": "next lint",
+    "docker": "docker build -t ghcr.io/creepershift/box-box ."
   },
   "dependencies": {
+    "@babel/core": "^7.0.0",
     "@chakra-ui/react": "^2.3.4",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -19,6 +21,7 @@
     "framer-motion": "^7.3.6",
     "immer": "^9.0.15",
     "iron-session": "^6.2.1",
+    "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "next": "12.3.1",
     "next-images": "^1.8.4",

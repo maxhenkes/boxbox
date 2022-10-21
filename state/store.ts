@@ -11,6 +11,7 @@ import {
 import create from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
+import { filter, omit, remove, unset } from "lodash";
 
 export type vmType = {
   id: string;
@@ -43,6 +44,22 @@ export const useDiagramStore = create<any>(
         selectedNode: "",
       }));
     },
+    deleteNode: (id: string) => {
+      set((state) => {
+        const retMap = omit(state.diagramMap, id);
+        /* unset(state.diagramMap, id); */
+        /* state.onNodesChange([{ id, type: "remove" }]); */
+
+        const retNodes = filter(state.nodes, (n) => {
+          return n.id !== id;
+        });
+        return {
+          diagramMap: retMap,
+          selectedNode: "",
+          nodes: retNodes,
+        };
+      });
+    },
     setNodeLabel: (id: string, label: string) => {
       set((state) => {
         const index = state.nodes.findIndex((obj: Node) => obj.id === id);
@@ -51,9 +68,9 @@ export const useDiagramStore = create<any>(
       });
     },
     onNodesChange: (changes: NodeChange[]) => {
-      set({
-        nodes: applyNodeChanges(changes, get().nodes),
-      });
+      set((state) => ({
+        nodes: applyNodeChanges(changes, state.nodes),
+      }));
     },
     onEdgesChange: (changes: EdgeChange[]) => {
       set({
@@ -101,8 +118,6 @@ export const useDiagramStore = create<any>(
     setSelectedNode: (id: string) => {
       set(() => ({ selectedNode: id }));
     },
-    removeDataNode: (id: string) =>
-      set((state) => ({ diagramMap: state.diagramMap.delete(id) })),
     updateDataNode: (vm: vmType) =>
       set((state) => ({ diagramMap: state.diagramMap.set(vm.id, vm) })),
   })),

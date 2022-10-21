@@ -69,6 +69,16 @@ const Handles = ({ handles, isConnectable }) => {
           isConnectable={isConnectable}
         />,
       );
+      createdHandles.push(
+        <Handle
+          type="source"
+          position="top"
+          key={i + 100}
+          id="a"
+          style={style}
+          isConnectable={isConnectable}
+        />,
+      );
     }
   }
 

@@ -17,19 +17,27 @@ import {
   HStack,
   Text,
   Button,
+  Box,
 } from "@chakra-ui/react";
 import Overview from "./Overview";
 import { useDiagramStore } from "../state/store";
 
 export default function DetailView() {
-  const { selectedNode, diagramMap, nodes, setNodeLabel, addHandle } =
-    useDiagramStore((state) => ({
-      selectedNode: state.selectedNode,
-      diagramMap: state.diagramMap,
-      nodes: state.nodes,
-      setNodeLabel: state.setNodeLabel,
-      addHandle: state.addHandle,
-    }));
+  const {
+    selectedNode,
+    diagramMap,
+    nodes,
+    setNodeLabel,
+    addHandle,
+    deleteNode,
+  } = useDiagramStore((state) => ({
+    selectedNode: state.selectedNode,
+    diagramMap: state.diagramMap,
+    nodes: state.nodes,
+    setNodeLabel: state.setNodeLabel,
+    addHandle: state.addHandle,
+    deleteNode: state.deleteNode,
+  }));
 
   const getVMName = () => {
     const hasSelection = !selectedNode || selectedNode === "none";
@@ -54,6 +62,10 @@ export default function DetailView() {
     setNodeLabel(selectedNode, e.target.value);
   };
 
+  const onDelete = () => {
+    deleteNode(selectedNode);
+  };
+
   if (!selectedNode || selectedNode === "none") {
     return (
       <>
@@ -66,10 +78,10 @@ export default function DetailView() {
 
   return (
     <>
-      <Heading>Current Selected</Heading>
-      <Divider mb={4} />
+      {/*  <Heading fontSize="2xl">Current Selected</Heading> */}
+      <Divider mb={4} pt={35} />
       <VStack>
-        <Text>{diagramMap[selectedNode].name}</Text>
+        <Text fontSize="xl">{diagramMap[selectedNode].name}</Text>
         <FormControl isInvalid={isError}>
           <FormLabel>VM Name</FormLabel>
           <Input type="text" value={vmName} onChange={handleInputChange} />
@@ -90,6 +102,11 @@ export default function DetailView() {
             </NumberInputStepper>
           </NumberInput>
         </HStack>
+        <Box w="100%" pt={5}>
+          <Button colorScheme="red" variant="solid" w="100%" onClick={onDelete}>
+            Delete
+          </Button>
+        </Box>
       </VStack>
     </>
   );

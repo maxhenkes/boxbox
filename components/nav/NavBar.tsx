@@ -70,7 +70,7 @@ const MenuLinks = ({ isOpen }) => {
         pt={[4, 4, 0, 0]}
       >
         <MenuItem to="/App">Canvas</MenuItem>
-        <MenuItem to="/diagrams">My Diagrams</MenuItem>
+        <MenuItem to="/MyDiagrams">My Diagrams</MenuItem>
         <MenuItem to="/user" isLast>
           <Tooltip label="test">
             <Avatar name="test" size="md"></Avatar>

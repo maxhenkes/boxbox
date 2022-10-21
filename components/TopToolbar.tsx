@@ -29,12 +29,8 @@ function TopToolbar(): JSX.Element {
   };
 
   return (
-    <Box bg="gray.700">
+    <Box bg="gray.700" pl={90}>
       <ButtonGroup padding={2} variant="outline" spacing="3">
-        <Button leftIcon={<AiOutlineForm />} colorScheme="blue">
-          New
-        </Button>
-        <Button leftIcon={<AiOutlineCloudUpload />}>Load</Button>
         <SaveButton text="Save"></SaveButton>
         <Alert clear={clearAll}></Alert>
       </ButtonGroup>
