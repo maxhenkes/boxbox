@@ -11,7 +11,7 @@ import {
 import create from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import { filter, omit, remove, unset } from "lodash";
+import { filter, omit, remove, unset, set as obSet } from "lodash";
 
 export type vmType = {
   id: string;
@@ -44,6 +44,42 @@ export const useDiagramStore = create<any>(
         selectedNode: "",
       }));
     },
+    addHandle: (id: string) => {
+      set((state) => {
+        const index = state.nodes.findIndex((obj: Node) => obj.id === id);
+        state.nodes[index].data.handles += 1;
+      });
+    },
+    loadFromDB: (dbData) => {
+      set((state) => {
+        let newData = {};
+        dbData.data.forEach((d) => {
+          const data = omit(d, ["id", "internalId", "diagramId"]);
+          obSet(data, "id", d.internalId);
+          obSet(newData, d.internalId, data);
+        });
+
+        state.diagramMap = newData;
+        state.id = dbData.idCount;
+        const dbNodes = [];
+        dbData.nodes.forEach((n) => {
+          const newNode = {
+            id: n.internalId,
+            position: { x: n.xPos, y: n.yPos },
+            type: "vmNode",
+            data: {
+              icon: n.dataIcon,
+              type: n.dataType,
+              label: n.dataLabel,
+              handles: 1,
+            },
+          };
+          dbNodes.push(newNode);
+        });
+        state.nodes = dbNodes;
+      });
+    },
+
     deleteNode: (id: string) => {
       set((state) => {
         const retMap = omit(state.diagramMap, id);
@@ -83,12 +119,12 @@ export const useDiagramStore = create<any>(
       });
     },
 
-    addHandle: (id: string) => {
+    /*     addHandle: (id: string) => {
       set((state) => {
         const index = state.nodes.findIndex((obj: Node) => obj.id === id);
         state.nodes[index].data.handles = 3;
       });
-    },
+    }, */
 
     addNode: (node: Node) => {
       set((state) => {

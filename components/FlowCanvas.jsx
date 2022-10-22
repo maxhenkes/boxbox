@@ -76,7 +76,7 @@ function FlowCanvas() {
         data: {
           icon: icon,
           type: type,
-          handles: 2,
+          handles: 1,
         },
       };
 

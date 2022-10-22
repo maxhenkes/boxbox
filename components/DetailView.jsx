@@ -66,6 +66,10 @@ export default function DetailView() {
     deleteNode(selectedNode);
   };
 
+  const onHandle = () => {
+    addHandle(selectedNode);
+  };
+
   if (!selectedNode || selectedNode === "none") {
     return (
       <>
@@ -105,6 +109,16 @@ export default function DetailView() {
         <Box w="100%" pt={5}>
           <Button colorScheme="red" variant="solid" w="100%" onClick={onDelete}>
             Delete
+          </Button>
+        </Box>
+        <Box w="100%" pt={5}>
+          <Button
+            colorScheme="green"
+            variant="solid"
+            w="100%"
+            onClick={onHandle}
+          >
+            Add Handle
           </Button>
         </Box>
       </VStack>

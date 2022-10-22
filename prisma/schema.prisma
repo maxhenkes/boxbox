@@ -20,12 +20,13 @@ model User {
 
 model Diagram {
   id        Int      @id @default(autoincrement())
-  name      String?
+  name      String
   userId    Int?
   User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   nodes     Node[]
   edges     Edge[]
   data      Data[]
+  idCount   Int      @default(0)
   createdAt DateTime @default(now())
 }
 

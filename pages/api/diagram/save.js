@@ -2,7 +2,7 @@ import { forOwn, omit } from "lodash";
 import prisma from "../../../lib/prisma";
 
 export default async function handle(req, res) {
-  const { nodes, data, name } = req.body;
+  const { nodes, data, name, idCount } = req.body;
 
   const getNodes = () => {
     const ret = [];
@@ -38,6 +38,7 @@ export default async function handle(req, res) {
       diagrams: {
         create: {
           name: name,
+          idCount: idCount,
           nodes: {
             create: getNodes(),
           },

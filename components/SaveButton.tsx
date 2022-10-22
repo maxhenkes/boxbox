@@ -22,16 +22,20 @@ type SaveButtonProp = {
 
 function SaveButton({ text }: SaveButtonProp) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { nodes, diagramMap } = useDiagramStore((state) => ({
+  const { nodes, diagramMap, id } = useDiagramStore((state) => ({
     nodes: state.nodes,
     diagramMap: state.diagramMap,
+    id: state.id,
   }));
 
   const [diagramName, setDiagramName] = useState("");
 
   const onSave = async (event: MouseEventHandler<HTMLButtonElement>) => {
+    if (diagramName === "") {
+      return;
+    }
     try {
-      const body = { nodes, data: diagramMap, name: diagramName };
+      const body = { nodes, data: diagramMap, name: diagramName, idCount: id };
       const reply = await fetch("/api/diagram/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

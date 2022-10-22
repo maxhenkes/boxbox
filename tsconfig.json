@@ -20,6 +20,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "**/*.jsx",
     "pages/user.jsx",
     "pages/App.jsx",
     "pages/canvas.jsx",

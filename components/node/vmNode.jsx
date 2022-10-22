@@ -34,7 +34,7 @@ export const vmNode = ({ data, isConnectable }) => {
           </Text>
         </Box>
       </HStack>
-      <Handles handles={data} isConnectable={isConnectable} />
+      <Handles handles={data.handles} isConnectable={isConnectable} />
     </>
   );
 };
@@ -42,40 +42,39 @@ export const vmNode = ({ data, isConnectable }) => {
 const Handles = ({ handles, isConnectable }) => {
   const createdHandles = [];
 
+  const outBG = "#c45e47";
+  const inBG = "#42ad42";
+
   /*
   Add TOP and BOT handles from data,
   create even spacing depending on how many handles 
   */
+  console.log(handles);
 
   if (handles) {
+    let offset = 0;
     for (let i = 1; i <= handles; i++) {
-      let style;
-
-      if (i == 1) {
-        style = { left: 10, background: "#555" };
-      } else if (i == 2) {
-        style = { left: 20, background: "#555" };
-      } else if (i == 3) {
-        style = { left: 30, background: "#555" };
-      }
+      const styleIn = { left: offset, background: outBG };
+      const styleOut = { left: offset, background: inBG };
+      offset += 10;
 
       createdHandles.push(
         <Handle
           type="source"
           position="bottom"
-          key={i}
-          id="a"
-          style={style}
+          key={`a-${i}`}
+          id={`a-${offset}`}
+          style={styleOut}
           isConnectable={isConnectable}
         />,
       );
       createdHandles.push(
         <Handle
-          type="source"
+          type="target"
           position="top"
-          key={i + 100}
-          id="a"
-          style={style}
+          key={`b-${i}`}
+          id={`b-${offset}`}
+          style={styleIn}
           isConnectable={isConnectable}
         />,
       );
