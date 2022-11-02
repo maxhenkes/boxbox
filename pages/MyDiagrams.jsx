@@ -90,7 +90,7 @@ const DiagramItem = ({ data }) => {
         const diagramData = head(data.diagrams);
         console.log(diagramData);
         loadFromDB(diagramData);
-        Router.push("App");
+        Router.push("canvas");
       });
   };
 

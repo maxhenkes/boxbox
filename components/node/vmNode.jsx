@@ -1,4 +1,12 @@
-import { Box, Center, HStack, Icon, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Divider,
+  HStack,
+  Icon,
+  Spacer,
+  Text,
+} from "@chakra-ui/react";
 import { Handle } from "reactflow";
 import { getIcon } from "../../util/icon-helper";
 
@@ -32,6 +40,14 @@ export const vmNode = ({ data, isConnectable }) => {
             {/*TODO: Add node overview data */}
             {data.label}
           </Text>
+          <Divider></Divider>
+          {data.template ? (
+            <Text fontSize="3xs" color="gray.700" fontStyle="italic" pt={1}>
+              {data.template}
+            </Text>
+          ) : (
+            <></>
+          )}
         </Box>
       </HStack>
       <Handles handles={data.handles} isConnectable={isConnectable} />

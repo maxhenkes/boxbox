@@ -69,7 +69,7 @@ const MenuLinks = ({ isOpen }) => {
         direction={["column", "row", "row", "row"]}
         pt={[4, 4, 0, 0]}
       >
-        <MenuItem to="/App">Canvas</MenuItem>
+        <MenuItem to="/canvas">Canvas</MenuItem>
         <MenuItem to="/MyDiagrams">My Diagrams</MenuItem>
         <MenuItem to="/user" isLast>
           <Tooltip label="test">

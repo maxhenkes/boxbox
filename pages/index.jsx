@@ -20,7 +20,7 @@ const Home = () => {
       });
       console.log(ret);
       if (ret.ok == true) {
-        Router.push("App");
+        Router.push("canvas");
       } else {
         setError(true);
       }

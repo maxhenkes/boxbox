@@ -21,6 +21,7 @@ import {
 } from "@chakra-ui/react";
 import Overview from "./Overview";
 import { useDiagramStore } from "../state/store";
+import { TemplateSelector } from "./TemplateSelector";
 
 export default function DetailView() {
   const {
@@ -121,6 +122,7 @@ export default function DetailView() {
             Add Handle
           </Button>
         </Box>
+        <TemplateSelector />
       </VStack>
     </>
   );
