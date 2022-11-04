@@ -90,7 +90,7 @@ export const useDiagramStore = create<any>(
               icon: n.dataIcon,
               type: n.dataType,
               label: n.dataLabel,
-              handles: 1,
+              handles: n.dataHandles,
               template: n.template,
             },
           };
@@ -157,6 +157,10 @@ export const useDiagramStore = create<any>(
         const newDataNode: vmType = {
           id: finalId,
           name: newNodeLabel,
+          description: "",
+          onBoot: true,
+          cores: 1,
+          memory: 1024,
         };
 
         let returnMap = { ...state.diagramMap };

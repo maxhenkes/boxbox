@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import ReactFlow, {
   Background,
   ConnectionLineType,
@@ -8,6 +8,7 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { useDiagramStore } from "../state/store";
+import { LabelEdge } from "./node/LabelEdge";
 
 import { vmNode } from "./node/vmNode";
 
@@ -80,7 +81,7 @@ function FlowCanvas() {
         data: {
           icon: icon,
           type: type,
-          handles: 1,
+          handles: 0,
         },
       };
 
@@ -91,8 +92,7 @@ function FlowCanvas() {
   const defaultEdge = {
     type: "step",
   };
-
-  const onSelectionChange2 = () => {};
+  const edgeTypes = useMemo(() => ({ labelEdge: LabelEdge }), []);
 
   return (
     <ReactFlow
@@ -100,7 +100,6 @@ function FlowCanvas() {
       edges={edges}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
-      onSelectionChange={onSelectionChange2}
       onConnect={onConnect}
       onInit={onInit}
       proOptions={proOptions}
@@ -111,6 +110,7 @@ function FlowCanvas() {
       onDragOver={onDragOver}
       onDrop={onDrop}
       nodeTypes={nodeTypes}
+      edgeTypes={edgeTypes}
     >
       <MiniMap
         maskColor="#36454f"

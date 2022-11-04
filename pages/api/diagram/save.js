@@ -14,6 +14,7 @@ export default async function handle(req, res) {
         dataLabel: n.data.label,
         dataIcon: n.data.icon,
         template: n.data.template,
+        dataHandles: n.data.handles,
       };
       ret.push(dataNode);
     });

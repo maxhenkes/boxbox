@@ -35,7 +35,6 @@ model Data {
   id           Int      @id @default(autoincrement())
   internalId   String
   name         String
-  iso          String?
   cores        Int?
   cpulimit     Int?
   description  String?
@@ -49,17 +48,16 @@ model Data {
 }
 
 model Node {
-  id                Int      @id @default(autoincrement())
-  internalId        String
-  xPos              Float
-  yPos              Float
-  dataLabel         String
-  dataIcon          String
-  dataTopHandles    Int?
-  dataBottomHandles Int?
-  template          String?
-  Diagram           Diagram? @relation(fields: [diagramId], references: [id], onDelete: Cascade)
-  diagramId         Int?
+  id          Int      @id @default(autoincrement())
+  internalId  String
+  xPos        Float
+  yPos        Float
+  dataLabel   String
+  dataIcon    String
+  dataHandles Int?
+  template    String?
+  Diagram     Diagram? @relation(fields: [diagramId], references: [id], onDelete: Cascade)
+  diagramId   Int?
 }
 
 model Edge {

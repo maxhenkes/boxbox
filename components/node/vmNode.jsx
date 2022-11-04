@@ -71,7 +71,7 @@ const Handles = ({ handles }) => {
 
   if (handles) {
     let offset = 0;
-    for (let i = 1; i <= handles && i <= maxHandles; i++) {
+    for (let i = 0; i < handles && i < maxHandles; i++) {
       const styleIn = {
         left: offset,
         background: outBG,

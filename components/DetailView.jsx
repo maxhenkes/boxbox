@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Heading,
   Divider,
@@ -8,12 +8,8 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  FormControl,
   FormLabel,
-  FormErrorMessage,
-  FormHelperText,
   Input,
-  VStack,
   HStack,
   Text,
   Button,
@@ -34,6 +30,7 @@ export default function DetailView() {
     setNodeLabel,
     addHandle,
     deleteNode,
+    updateDataNode,
   } = useDiagramStore((state) => ({
     selectedNode: state.selectedNode,
     diagramMap: state.diagramMap,
@@ -41,6 +38,7 @@ export default function DetailView() {
     setNodeLabel: state.setNodeLabel,
     addHandle: state.addHandle,
     deleteNode: state.deleteNode,
+    updateDataNode: state.updateDataNode,
   }));
 
   const updateNodeInternals = useUpdateNodeInternals();
@@ -77,6 +75,10 @@ export default function DetailView() {
     updateNodeInternals(selectedNode);
   };
 
+  const getNode = () => {
+    return diagramMap[selectedNode];
+  };
+
   if (!selectedNode || selectedNode === "none") {
     return (
       <Box flex="1" alignSelf="stretch" m={3}>
@@ -89,7 +91,6 @@ export default function DetailView() {
 
   return (
     <Box flex="1" alignSelf="stretch" m={3}>
-      {/*  <Heading fontSize="2xl">Current Selected</Heading> */}
       <Flex flexDirection="column" gap="5">
         <Text fontSize="xl">{diagramMap[selectedNode].name}</Text>
         <Box>
@@ -103,12 +104,30 @@ export default function DetailView() {
         </Box>
         <Box>
           <FormLabel>Description</FormLabel>
-          <Textarea placeholder="VM Description..."></Textarea>
+          <Textarea
+            placeholder="VM Description..."
+            value={getNode().description}
+            onChange={(e) => {
+              updateDataNode(selectedNode, "description", e.target.value);
+            }}
+          ></Textarea>
         </Box>
-        <Checkbox defaultChecked>Start on Boot</Checkbox>
+        <Checkbox defaultChecked isChecked={getNode().onBoot}>
+          Start on Boot
+        </Checkbox>
         <HStack>
           <Text>CPU Cores</Text>
-          <NumberInput size="md" maxW={20} defaultValue={1} min={1} max={12}>
+          <NumberInput
+            size="md"
+            value={getNode().cores}
+            onChange={(valueAsNumber) => {
+              updateDataNode(selectedNode, "cores", parseInt(valueAsNumber));
+            }}
+            maxW={20}
+            defaultValue={1}
+            min={1}
+            max={12}
+          >
             <NumberInputField />
             <NumberInputStepper>
               <NumberIncrementStepper />
@@ -118,7 +137,16 @@ export default function DetailView() {
         </HStack>
         <HStack>
           <Text>Memory</Text>
-          <NumberInput size="md" maxW="50%" defaultValue={1024} min={1}>
+          <NumberInput
+            size="md"
+            maxW="50%"
+            defaultValue={1024}
+            value={getNode().memory}
+            onChange={(valueAsNumber) => {
+              updateDataNode(selectedNode, "memory", parseInt(valueAsNumber));
+            }}
+            min={1}
+          >
             <NumberInputField />
             <NumberInputStepper>
               <NumberIncrementStepper />
