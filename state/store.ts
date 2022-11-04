@@ -9,20 +9,19 @@ import {
   Edge,
 } from "reactflow";
 import create from "zustand";
-import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { filter, omit, remove, unset, set as obSet } from "lodash";
 
 export type vmType = {
   id: string;
   name: string;
-  iso?: string;
   cores?: number;
   cpulimit?: number;
   description?: string;
   freeze?: boolean;
   memory?: number;
   onBoot?: boolean;
+  template?: { vmid: string; name: string };
 };
 
 export const useDiagramStore = create<any>(
@@ -50,12 +49,32 @@ export const useDiagramStore = create<any>(
         state.nodes[index].data.handles += 1;
       });
     },
+    setData: (id: string, path: string, obj: any) => {
+      set((state) => {
+        const index = state.nodes.findIndex((obj: Node) => obj.id === id);
+        obSet(state.nodes[index].data, path, obj);
+      });
+    },
     loadFromDB: (dbData) => {
       set((state) => {
         let newData = {};
         dbData.data.forEach((d) => {
-          const data = omit(d, ["id", "internalId", "diagramId"]);
+          const data = omit(d, [
+            "id",
+            "internalId",
+            "diagramId",
+            "templateID",
+            "templateName",
+          ]);
           obSet(data, "id", d.internalId);
+
+          if (data.templateName) {
+            const template = {
+              vmid: data.templateID,
+              name: data.templateName,
+            };
+            obSet(data, "template", template);
+          }
           obSet(newData, d.internalId, data);
         });
 
@@ -72,6 +91,7 @@ export const useDiagramStore = create<any>(
               type: n.dataType,
               label: n.dataLabel,
               handles: 1,
+              template: n.template,
             },
           };
           dbNodes.push(newNode);
@@ -118,14 +138,12 @@ export const useDiagramStore = create<any>(
         edges: addEdge(connection, get().edges),
       });
     },
-
-    /*     addHandle: (id: string) => {
-      set((state) => {
-        const index = state.nodes.findIndex((obj: Node) => obj.id === id);
-        state.nodes[index].data.handles = 3;
-      });
-    }, */
-
+    vmTemplates: [],
+    setVmTemplates: (templates) => {
+      set((state) => ({
+        vmTemplates: templates,
+      }));
+    },
     addNode: (node: Node) => {
       set((state) => {
         const nodeID = get().id;
@@ -150,11 +168,16 @@ export const useDiagramStore = create<any>(
         };
       });
     },
+    updateDataNode: (id: string, prop: string, obj: any) => {
+      set((state) => {
+        let node = state.diagramMap[id];
+        obSet(node, prop, obj);
+        obSet(state.diagramMap, id, node);
+      });
+    },
     selectedNode: "",
     setSelectedNode: (id: string) => {
       set(() => ({ selectedNode: id }));
     },
-    updateDataNode: (vm: vmType) =>
-      set((state) => ({ diagramMap: state.diagramMap.set(vm.id, vm) })),
   })),
 );

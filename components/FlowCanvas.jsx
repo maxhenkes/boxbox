@@ -1,7 +1,8 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import ReactFlow, {
   Background,
   ConnectionLineType,
+  Controls,
   MiniMap,
   useOnSelectionChange,
 } from "reactflow";
@@ -14,15 +15,18 @@ const fitViewOptions = {
   padding: 0.2,
 };
 
-const nodeTypes = {
-  vmNode: vmNode,
-};
-
 const onDragOver = (event) => {
   event.preventDefault();
 };
 
 function FlowCanvas() {
+  const nodeTypes = useMemo(
+    () => ({
+      vmNode: vmNode,
+    }),
+    [],
+  );
+
   const {
     nodes,
     edges,
@@ -108,6 +112,13 @@ function FlowCanvas() {
       onDrop={onDrop}
       nodeTypes={nodeTypes}
     >
+      <MiniMap
+        maskColor="#36454f"
+        nodeColor="gray"
+        nodeStrokeWidth={3}
+        style={{ zIndex: 3 }}
+      />
+      <Controls />
       <Background
         variant="cross"
         gap={25}

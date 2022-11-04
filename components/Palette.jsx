@@ -11,8 +11,10 @@ import { getIcon } from "../util/icon-helper";
 export const Palette = () => {
   return (
     <VStack
-      w="100px"
+      w="120px"
       bg="gray.700"
+      border="1px"
+      borderColor="gray.700"
       divider={<StackDivider borderColor="gray.600" m={3} />}
     >
       <Heading fontSize="md" pt={5} mr={2}>

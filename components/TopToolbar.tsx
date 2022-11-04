@@ -29,7 +29,7 @@ function TopToolbar(): JSX.Element {
   };
 
   return (
-    <Box bg="gray.700" pl={90}>
+    <Box bg="gray.700" border="1px" borderColor="gray.600">
       <ButtonGroup padding={2} variant="outline" spacing="3">
         <SaveButton text="Save"></SaveButton>
         <Alert clear={clearAll}></Alert>

@@ -2,7 +2,7 @@ import { forOwn, omit } from "lodash";
 import prisma from "../../../lib/prisma";
 
 export default async function handle(req, res) {
-  const { nodes, data, name, idCount } = req.body;
+  const { nodes, data, name, idCount, diagramDescription } = req.body;
 
   const getNodes = () => {
     const ret = [];
@@ -13,6 +13,7 @@ export default async function handle(req, res) {
         yPos: n.position.y,
         dataLabel: n.data.label,
         dataIcon: n.data.icon,
+        template: n.data.template,
       };
       ret.push(dataNode);
     });
@@ -22,8 +23,13 @@ export default async function handle(req, res) {
   const getData = () => {
     const ret = [];
     forOwn(data, (value, key) => {
-      const dataNode = omit(value, "id");
+      const dataNode = omit(value, ["template", "id"]);
       dataNode.internalId = value.id;
+      if (value.template) {
+        console.log(value.template);
+        dataNode.templateName = value.template.name;
+        dataNode.templateID = value.template.vmid;
+      }
       ret.push(dataNode);
     });
 
@@ -39,6 +45,7 @@ export default async function handle(req, res) {
         create: {
           name: name,
           idCount: idCount,
+          diagramDescription: diagramDescription,
           nodes: {
             create: getNodes(),
           },

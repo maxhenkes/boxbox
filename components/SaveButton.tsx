@@ -10,6 +10,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
 import { MouseEventHandler, useState } from "react";
@@ -29,13 +30,20 @@ function SaveButton({ text }: SaveButtonProp) {
   }));
 
   const [diagramName, setDiagramName] = useState("");
+  const [diagramDescription, setDiagramDescription] = useState("");
 
   const onSave = async (event: MouseEventHandler<HTMLButtonElement>) => {
     if (diagramName === "") {
       return;
     }
     try {
-      const body = { nodes, data: diagramMap, name: diagramName, idCount: id };
+      const body = {
+        nodes,
+        data: diagramMap,
+        name: diagramName,
+        idCount: id,
+        diagramDescription,
+      };
       const reply = await fetch("/api/diagram/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -72,6 +80,12 @@ function SaveButton({ text }: SaveButtonProp) {
                 placeholder="Diagram name"
               />
             </FormControl>
+            <FormLabel pt={3}>Description</FormLabel>
+            <Textarea
+              placeholder="Diagram description..."
+              value={diagramDescription}
+              onChange={(e) => setDiagramDescription(e.target.value)}
+            ></Textarea>
           </ModalBody>
 
           <ModalFooter>

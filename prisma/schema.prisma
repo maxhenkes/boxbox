@@ -19,30 +19,33 @@ model User {
 }
 
 model Diagram {
-  id        Int      @id @default(autoincrement())
-  name      String
-  userId    Int?
-  User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  nodes     Node[]
-  edges     Edge[]
-  data      Data[]
-  idCount   Int      @default(0)
-  createdAt DateTime @default(now())
+  id                 Int      @id @default(autoincrement())
+  name               String
+  diagramDescription String   @default("My Diagram")
+  userId             Int?
+  User               User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nodes              Node[]
+  edges              Edge[]
+  data               Data[]
+  idCount            Int      @default(0)
+  createdAt          DateTime @default(now())
 }
 
 model Data {
-  id          Int      @id @default(autoincrement())
-  internalId  String
-  name        String
-  iso         String?
-  cores       Int?
-  cpulimit    Int?
-  description String?
-  freeze      Boolean?
-  memory      Int?
-  onBoot      Boolean?
-  Diagram     Diagram? @relation(fields: [diagramId], references: [id], onDelete: Cascade)
-  diagramId   Int?
+  id           Int      @id @default(autoincrement())
+  internalId   String
+  name         String
+  iso          String?
+  cores        Int?
+  cpulimit     Int?
+  description  String?
+  freeze       Boolean?
+  memory       Int?
+  onBoot       Boolean?
+  templateName String?
+  templateID   Int?
+  Diagram      Diagram? @relation(fields: [diagramId], references: [id], onDelete: Cascade)
+  diagramId    Int?
 }
 
 model Node {
@@ -54,6 +57,7 @@ model Node {
   dataIcon          String
   dataTopHandles    Int?
   dataBottomHandles Int?
+  template          String?
   Diagram           Diagram? @relation(fields: [diagramId], references: [id], onDelete: Cascade)
   diagramId         Int?
 }

@@ -1,5 +1,10 @@
 import Navbar from "../components/nav/NavBar";
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Button,
   Container,
@@ -23,6 +28,7 @@ export const getServerSideProps = async ({ req }) => {
       diagrams: {
         select: {
           name: true,
+          diagramDescription: true,
           id: true,
           createdAt: true,
         },
@@ -37,7 +43,6 @@ export const getServerSideProps = async ({ req }) => {
 
 const MyDiagrams = ({ dia }) => {
   const savedDiagrams = JSON.parse(dia);
-  console.log(savedDiagrams);
   return (
     <Flex flexFlow="column" w="100vw" h="100vh">
       <Navbar />
@@ -46,12 +51,12 @@ const MyDiagrams = ({ dia }) => {
           <Heading pt={4} pb={4}>
             My Diagrams
           </Heading>
-          {savedDiagrams.diagrams.map((d) => (
-            <List spacing={8}>
-              <ListItem key={d.id}>
+          {savedDiagrams.diagrams.reverse().map((d) => (
+            <Accordion allowToggle>
+              <AccordionItem pb={5}>
                 <DiagramItem data={d} />
-              </ListItem>
-            </List>
+              </AccordionItem>
+            </Accordion>
           ))}
         </Container>
       </Box>
@@ -95,23 +100,29 @@ const DiagramItem = ({ data }) => {
   };
 
   return (
-    <Box
-      display="flex"
-      borderRadius={8}
-      key={`box-${data.id}`}
-      p={2}
-      m={3}
-      h={50}
-      bg="gray.600"
-      alignItems="center"
-      justifyContent="space-between"
-    >
-      <Heading fontSize="xl">{data.name}</Heading>
-      <Tag colorScheme="red">{formatDate()}</Tag>
-      <Button onClick={onLoad} variant="solid" colorScheme="gray">
-        Load
-      </Button>
-    </Box>
+    <>
+      <AccordionButton>
+        <Box textAlign="left">
+          <Flex direction="column">
+            <Heading fontSize="xl">{data.name}</Heading>
+            <Tag colorScheme="teal" mt={2}>
+              {formatDate()}
+            </Tag>
+          </Flex>
+        </Box>
+        <AccordionIcon />
+      </AccordionButton>
+
+      <AccordionPanel pb={4}>
+        <Box border="2px" borderColor="gray.600" borderRadius="3" p={3}>
+          {data.diagramDescription}
+        </Box>
+
+        <Button mt={5} onClick={onLoad} variant="solid" colorScheme="green">
+          Load
+        </Button>
+      </AccordionPanel>
+    </>
   );
 };
 
