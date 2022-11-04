@@ -23,10 +23,11 @@ type SaveButtonProp = {
 
 function SaveButton({ text }: SaveButtonProp) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { nodes, diagramMap, id } = useDiagramStore((state) => ({
+  const { nodes, diagramMap, id, edges } = useDiagramStore((state) => ({
     nodes: state.nodes,
     diagramMap: state.diagramMap,
     id: state.id,
+    edges: state.edges,
   }));
 
   const [diagramName, setDiagramName] = useState("");
@@ -43,6 +44,7 @@ function SaveButton({ text }: SaveButtonProp) {
         name: diagramName,
         idCount: id,
         diagramDescription,
+        edges,
       };
       const reply = await fetch("/api/diagram/save", {
         method: "POST",

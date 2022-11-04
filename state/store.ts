@@ -77,7 +77,6 @@ export const useDiagramStore = create<any>(
           }
           obSet(newData, d.internalId, data);
         });
-
         state.diagramMap = newData;
         state.id = dbData.idCount;
         const dbNodes = [];
@@ -97,6 +96,13 @@ export const useDiagramStore = create<any>(
           dbNodes.push(newNode);
         });
         state.nodes = dbNodes;
+        const dbEdges = [];
+        dbData.edges.forEach((e) => {
+          const newEdge = omit(e, ["id", "internalId"]);
+          newEdge.id = e.id;
+          dbEdges.push(newEdge);
+        });
+        state.edges = dbEdges;
       });
     },
 

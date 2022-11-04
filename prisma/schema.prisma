@@ -61,10 +61,12 @@ model Node {
 }
 
 model Edge {
-  id         Int      @id @default(autoincrement())
-  internalId String
-  source     String
-  target     String
-  Diagram    Diagram? @relation(fields: [diagramId], references: [id], onDelete: Cascade)
-  diagramId  Int?
+  id           Int      @id @default(autoincrement())
+  internalId   String
+  source       String
+  sourceHandle String
+  target       String
+  targetHandle String
+  Diagram      Diagram? @relation(fields: [diagramId], references: [id], onDelete: Cascade)
+  diagramId    Int?
 }

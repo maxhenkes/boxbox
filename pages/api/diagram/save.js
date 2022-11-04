@@ -2,7 +2,7 @@ import { forOwn, omit } from "lodash";
 import prisma from "../../../lib/prisma";
 
 export default async function handle(req, res) {
-  const { nodes, data, name, idCount, diagramDescription } = req.body;
+  const { nodes, data, edges, name, idCount, diagramDescription } = req.body;
 
   const getNodes = () => {
     const ret = [];
@@ -17,6 +17,16 @@ export default async function handle(req, res) {
         dataHandles: n.data.handles,
       };
       ret.push(dataNode);
+    });
+    return ret;
+  };
+
+  const getEdgeData = () => {
+    const ret = [];
+    edges.forEach((e) => {
+      const edgeData = omit(e, ["type", "id"]);
+      edgeData.internalId = e.id;
+      ret.push(edgeData);
     });
     return ret;
   };
@@ -52,6 +62,9 @@ export default async function handle(req, res) {
           },
           data: {
             create: getData(),
+          },
+          edges: {
+            create: getEdgeData(),
           },
         },
       },
