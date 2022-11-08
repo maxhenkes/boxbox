@@ -56,7 +56,7 @@ export const TemplateSelector = () => {
     <>
       <Select
         onChange={onTemplateChange}
-        value={selectedTemplate}
+        value={nodeTemplate}
         placeholder="Select Template"
       >
         {vmTemplates.map((t) => {

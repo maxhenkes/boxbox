@@ -19,10 +19,14 @@ export default async function handle(req, res) {
     })
     .then((out) => {
       let result = [];
+      let lastVmId = 0;
       if (out && out.data && out.data.data && out.data.data.length > 0) {
         const data = out.data.data;
         if (data && data.length > 0) {
           data.forEach((d) => {
+            if (d.vmid > lastVmId) {
+              lastVmId = d.vmid;
+            }
             if (d.template === 1) {
               result.push({
                 vmid: d.vmid,
@@ -33,11 +37,11 @@ export default async function handle(req, res) {
         }
 
         res.status(200);
-        res.json(result);
+        res.json({ lastVmId, result });
         res.end();
       } else {
         res.status(500);
-        res.json([]);
+        res.json({ lastVmId: 0, result: [] });
         res.end();
       }
     });

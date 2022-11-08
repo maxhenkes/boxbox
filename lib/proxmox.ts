@@ -13,3 +13,7 @@ export const getNodesURL = PROXMOX_URL + "/api2/json/nodes/";
 export const getTemplatesURL = PROXMOX_URL + "/api2/json/nodes/xmx/qemu";
 
 export const getVersionURL = PROXMOX_URL + "/api2/json/version";
+
+export const getVMURL = (vmid: string) => {
+  return `${PROXMOX_URL}/api2/json/nodes/xmx/qemu/${vmid}/clone`;
+};

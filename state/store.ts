@@ -29,6 +29,7 @@ export const useDiagramStore = create<any>(
     nodes: [],
     edges: [],
     diagramMap: {},
+    lastVmId: 0,
     id: 1,
     nextId: () =>
       set((state) => {
@@ -147,7 +148,8 @@ export const useDiagramStore = create<any>(
     vmTemplates: [],
     setVmTemplates: (templates) => {
       set((state) => ({
-        vmTemplates: templates,
+        vmTemplates: templates.result,
+        lastVmId: templates.lastVmId,
       }));
     },
     addNode: (node: Node) => {

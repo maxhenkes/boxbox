@@ -82,9 +82,9 @@ export default function DetailView() {
   if (!selectedNode || selectedNode === "none") {
     return (
       <Box flex="1" alignSelf="stretch" m={3}>
-        <Heading>Overview</Heading>
+        {/*       <Heading>Overview</Heading>
         <Divider mb={4} />
-        <Overview></Overview>
+        <Overview></Overview> */}
       </Box>
     );
   }
