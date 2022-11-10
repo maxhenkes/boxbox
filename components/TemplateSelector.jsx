@@ -1,6 +1,7 @@
 import { Select } from "@chakra-ui/react";
+import { off } from "process";
 import { useEffect, useState } from "react";
-import { useDiagramStore } from "../state/store";
+import { useDiagramStore } from "../lib/store";
 
 export const TemplateSelector = () => {
   const {
@@ -23,8 +24,12 @@ export const TemplateSelector = () => {
     setSelectedTemplate(event.target.value);
     setData(selectedNode, "template", event.target.value);
 
-    const vmTemp = vmTemplates.find((o) => o.name === selectedTemplate);
-    updateDataNode(selectedNode, "template", vmTemp);
+    const vmTemp = vmTemplates.find((o) => o.name === event.target.value);
+    if (vmTemp) {
+      updateDataNode(selectedNode, "template", vmTemp);
+    } else {
+      updateDataNode(selectedNode, "template", {});
+    }
   };
 
   const index = nodes.findIndex((obj) => obj.id === selectedNode);

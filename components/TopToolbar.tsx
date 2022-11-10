@@ -16,7 +16,7 @@ import {
   AiOutlineCloudUpload,
   AiOutlineClear,
 } from "react-icons/ai";
-import { useDiagramStore } from "../state/store";
+import { useDiagramStore } from "../lib/store";
 import SaveButton from "./SaveButton";
 
 function TopToolbar(): JSX.Element {

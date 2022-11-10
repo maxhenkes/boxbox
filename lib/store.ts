@@ -44,6 +44,11 @@ export const useDiagramStore = create<any>(
         selectedNode: "",
       }));
     },
+    nextVmId: () => {
+      set((state) => {
+        state.lastVmId++;
+      });
+    },
     addHandle: (id: string) => {
       set((state) => {
         const index = state.nodes.findIndex((obj: Node) => obj.id === id);

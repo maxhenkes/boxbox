@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { MouseEventHandler, useState } from "react";
 import { AiOutlineCloudDownload } from "react-icons/ai";
-import { useDiagramStore } from "../state/store";
+import { useDiagramStore } from "../lib/store";
 
 type SaveButtonProp = {
   text: string;

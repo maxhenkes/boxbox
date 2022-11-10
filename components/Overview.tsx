@@ -1,6 +1,6 @@
 import { Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useDiagramStore } from "../state/store";
+import { useDiagramStore } from "../lib/store";
 
 export default function Overview() {
   const { nodes } = useDiagramStore((state) => ({

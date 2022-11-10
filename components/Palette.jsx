@@ -6,7 +6,7 @@ import {
   Text,
   StackDivider,
 } from "@chakra-ui/react";
-import { getIcon } from "../util/icon-helper";
+import { getIcon } from "../lib/icon-helper";
 
 export const Palette = () => {
   return (

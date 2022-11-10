@@ -3,15 +3,15 @@ import prisma from "../../../lib/prisma";
 import { getVMURL } from "../../../lib/proxmox";
 
 export default async function handle(req, res) {
-  const { vm } = req.body;
+  const { vm, newid } = req.body;
 
-  const url = getVMURL("102");
+  const url = getVMURL(vm.template.vmid);
   const authURL = await authHeaderBuilder();
 
-  axios
+  await axios
     .post(
       url,
-      { newid: 105 },
+      { newid: parseInt(newid) },
       {
         headers: {
           Authorization: authURL,
@@ -20,10 +20,11 @@ export default async function handle(req, res) {
     )
     .catch(function (error) {
       console.error(error);
-      res.json({});
     })
     .then((out) => {
-      res.json(out.data);
+      if (out.data) {
+        res.json(out.data);
+      }
     });
 }
 

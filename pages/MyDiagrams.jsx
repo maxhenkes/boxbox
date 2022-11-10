@@ -15,7 +15,7 @@ import {
   Tag,
 } from "@chakra-ui/react";
 import prisma from "../lib/prisma";
-import { useDiagramStore } from "../state/store";
+import { useDiagramStore } from "../lib/store";
 import { head } from "lodash";
 import Router from "next/router";
 

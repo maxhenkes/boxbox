@@ -7,7 +7,7 @@ import ReactFlow, {
   useOnSelectionChange,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { useDiagramStore } from "../state/store";
+import { useDiagramStore } from "../lib/store";
 import { LabelEdge } from "./node/LabelEdge";
 
 import { vmNode } from "./node/vmNode";

@@ -18,7 +18,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import Overview from "./Overview";
-import { useDiagramStore } from "../state/store";
+import { useDiagramStore } from "../lib/store";
 import { TemplateSelector } from "./TemplateSelector";
 import { useUpdateNodeInternals } from "reactflow";
 

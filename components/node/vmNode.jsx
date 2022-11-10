@@ -9,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Handle } from "reactflow";
-import { getIcon } from "../../util/icon-helper";
+import { getIcon } from "../../lib/icon-helper";
 
 export const vmNode = ({ data, isConnectable }) => {
   return (
