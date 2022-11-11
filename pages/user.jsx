@@ -42,6 +42,7 @@ const User = ({ dbUserData }) => {
         api_key: userData.api_key,
         pUser: userData.pUser,
         token: userData.token,
+        loggedInUser: "Test",
       }),
     });
     onSuccessSaved();

@@ -112,7 +112,7 @@ export default function DetailView() {
             }}
           ></Textarea>
         </Box>
-        <Checkbox defaultChecked isChecked={getNode().onBoot}>
+        <Checkbox defaultChecked isChecked={getNode().onboot}>
           Start on Boot
         </Checkbox>
         <HStack>

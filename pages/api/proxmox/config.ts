@@ -1,30 +1,35 @@
 import axios from "axios";
+import { pick } from "lodash";
 import prisma from "../../../lib/prisma";
-import { getVMURL } from "../../../lib/proxmox";
+import { getVMConfigURL } from "../../../lib/proxmox";
 
 export default async function handle(req, res) {
   const { vm, newid } = req.body;
 
-  console.log(newid);
-
-  const url = getVMURL(vm.template.vmid);
+  const url = getVMConfigURL(newid);
   const authURL = await authHeaderBuilder();
 
+  const vmConfig = pick(vm, [
+    "name",
+    "cores",
+    "memory",
+    "description",
+    "onBoot",
+  ]);
+
   await axios
-    .post(
-      url,
-      { newid: parseInt(newid) },
-      {
-        headers: {
-          Authorization: authURL,
-        },
+    .post(url, vmConfig, {
+      headers: {
+        Authorization: authURL,
       },
-    )
-    .then((response) => {
-      res.status(200).json(response.data);
     })
     .catch(function (error) {
-      res.status(500).json({ error: error });
+      console.error(error);
+    })
+    .then((out) => {
+      if (out && out.data) {
+        res.json(out.data);
+      }
     });
 }
 

@@ -10,7 +10,7 @@ import {
 } from "reactflow";
 import create from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { filter, omit, remove, unset, set as obSet } from "lodash";
+import { filter, omit, set as obSet } from "lodash";
 
 export type vmType = {
   id: string;
@@ -20,7 +20,7 @@ export type vmType = {
   description?: string;
   freeze?: boolean;
   memory?: number;
-  onBoot?: boolean;
+  onboot?: boolean;
   template?: { vmid: string; name: string };
 };
 
@@ -46,7 +46,11 @@ export const useDiagramStore = create<any>(
     },
     nextVmId: () => {
       set((state) => {
-        state.lastVmId++;
+        let oldId = state.lastVmId;
+        oldId++;
+        return {
+          lastVmId: oldId,
+        };
       });
     },
     addHandle: (id: string) => {
@@ -171,7 +175,7 @@ export const useDiagramStore = create<any>(
           id: finalId,
           name: newNodeLabel,
           description: "",
-          onBoot: true,
+          onboot: true,
           cores: 1,
           memory: 1024,
         };

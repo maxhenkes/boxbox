@@ -16,8 +16,8 @@ import { keys, size, values } from "lodash";
 const Provision = () => {
   const [isChecking, setIsChecking] = useState(true);
   const [diagramHasError, setDiagramHasError] = useState(false);
-  const [createdVMs, setCreatedVMs] = useState([]);
   const [vmList, setVmList] = useState([]);
+  const [isDone, setIsDone] = useState(false);
 
   const { diagramMap, lastVmId, nextVmId } = useDiagramStore((state) => ({
     diagramMap: state.diagramMap,
@@ -44,30 +44,49 @@ const Provision = () => {
 
   useEffect(() => {
     if (!isChecking && !diagramHasError) {
-      const url = "/api/proxmox/create";
+      const urlCreate = "/api/proxmox/create";
+      const urlConfig = "/api/proxmox/config";
 
-      const fetchTemplates = async (vm) => {
+      const createVM = async (vm, c) => {
+        nextVmId();
+        const newid = lastVmId + c;
+
         try {
-          nextVmId();
-          const newid = lastVmId;
-          const response = await fetch(url, {
+          fetch(urlCreate, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               vm,
-              newid: newid + 1,
+              newid: newid,
             }),
-          });
-          const json = await response.json();
-          console.log(json);
+          })
+            .then((res) => {
+              console.log(res.json());
+            })
+            .finally(() => {
+              fetch(urlConfig, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  vm,
+                  newid: newid,
+                }),
+              }).then((res) => {
+                console.log(res.json());
+              });
+            });
         } catch (error) {
           console.error(error);
         }
       };
-      fetchTemplates(vmList[0]);
 
-      console.log("make call to proxmox");
-      console.log(vmList);
+      let id = 1;
+      vmList.forEach((vm) => {
+        createVM(vm, id);
+        id++;
+      });
+
+      setIsDone((s) => true);
     }
   }, [isChecking, vmList]);
 
@@ -80,6 +99,7 @@ const Provision = () => {
           <CheckProvisions
             isChecking={isChecking}
             isError={diagramHasError}
+            isDone={isDone}
           ></CheckProvisions>
           {vmList.map((vm) => {
             <VMCreation vmid={vm.id} />;
@@ -99,7 +119,7 @@ const VMCreation = ({ vmid }) => {
   );
 };
 
-const CheckProvisions = ({ isChecking, isError }) => {
+const CheckProvisions = ({ isChecking, isError, isDone }) => {
   return (
     <>
       {isChecking ? (
@@ -118,6 +138,14 @@ const CheckProvisions = ({ isChecking, isError }) => {
           Diagram is not complete! Please make sure it is not empty and check
           for templates then try again.
         </Flex>
+      )}
+      {isDone ? (
+        <Flex pt="3" align="center">
+          <Icon as={AiOutlineCheckCircle} h="10" w="10" mr="3" />
+          All VMs were created!
+        </Flex>
+      ) : (
+        <></>
       )}
     </>
   );
