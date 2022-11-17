@@ -40,7 +40,7 @@ model Data {
   description  String?
   freeze       Boolean?
   memory       Int?
-  onBoot       Boolean?
+  onboot       Boolean?
   templateName String?
   templateID   Int?
   Diagram      Diagram? @relation(fields: [diagramId], references: [id], onDelete: Cascade)

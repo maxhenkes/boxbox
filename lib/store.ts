@@ -89,6 +89,7 @@ export const useDiagramStore = create<any>(
         });
         state.diagramMap = newData;
         state.id = dbData.idCount;
+        state.selectedNode = "none";
         const dbNodes = [];
         dbData.nodes.forEach((n) => {
           const newNode = {
